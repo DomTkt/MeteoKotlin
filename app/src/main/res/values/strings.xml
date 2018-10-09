@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">WeatherApp</string>
+
+
+
+    <!-- Weather Activity-->
+
+    <!--Label-->
+    <string name="weather_activity_label_sunrise">Sunrise : </string>
+    <string name="weather_activity_label_sunset">Sunset :  </string>
+    <string name="weather_activity_label_clouds">Clouds :  </string>
+    <string name="weather_activity_label_rain">Rain :  </string>
+    <string name="weather_activity_label_humidity">Humidity :  </string>
+    <string name="weather_activity_label_pressure">Pressure :  </string>
+
+    <!--Unit-->
+    <string name="weather_activity_unit_degree">°</string>
+    <string name="weather_activity_unit_percent">%</string>
+    <string name="weather_activity_unit_volume">mm</string>
+    <string name="weather_activity_unit_pressure">hPa</string>
+
+    <!--Empty State-->
+
+    <string name="weather_activity_rain_empty_state">0 mm</string>
+
+
+
+</resources>
