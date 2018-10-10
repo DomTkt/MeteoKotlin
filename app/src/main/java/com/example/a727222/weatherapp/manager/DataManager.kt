@@ -2,6 +2,7 @@ package com.example.a727222.weatherapp.manager
 
 import com.example.a727222.weatherapp.interfaces.IApiResponse
 import com.example.a727222.weatherapp.models.WeatherCurrent
+import com.example.a727222.weatherapp.models.WeatherForecast
 import com.example.a727222.weatherapp.services.IWeatherItemAPIServices
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,10 +28,28 @@ object DataManager {
                 callback.onSuccess(response.body())
             }
             override fun onFailure(call: Call<WeatherCurrent>, t: Throwable) {
-                callback.onError(t)
+
             }
         })
         return listCurrentWeather
+    }
+
+    fun getWeatherForecastForOneWeek(callback : IApiResponse<WeatherForecast>) : Call<WeatherForecast>{
+        val listWeatherForecast = create().listWeatherForecast()
+        listWeatherForecast.enqueue(object : Callback<WeatherForecast>
+        {
+            override fun onResponse(call: Call<WeatherForecast>, response: Response<WeatherForecast>) {
+                callback.onSuccess(response.body())
+            }
+
+
+            override fun onFailure(call: Call<WeatherForecast>, t: Throwable) {
+                callback.onError(t)
+            }
+
+        }
+        )
+        return listWeatherForecast
     }
 
 }

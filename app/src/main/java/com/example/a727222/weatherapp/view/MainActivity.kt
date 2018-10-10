@@ -2,18 +2,22 @@ package com.example.a727222.weatherapp.view
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.a727222.weatherapp.R
+import com.example.a727222.weatherapp.adapter.WeatherForecastAdapter
 import com.example.a727222.weatherapp.interfaces.IApiResponse
 import com.example.a727222.weatherapp.manager.DataManager
+import com.example.a727222.weatherapp.models.ForecastItem
 import com.example.a727222.weatherapp.models.WeatherCurrent
+import com.example.a727222.weatherapp.models.WeatherForecast
 import com.example.a727222.weatherapp.utils.Utils
-import retrofit2.Call
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var mGetCurrentWeather : Call<WeatherCurrent>
+
 
     private lateinit var textViewWeatherCity : TextView
     private lateinit var textViewWeatherMain : TextView
@@ -26,6 +30,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var textViewWeatherRain : TextView
     private lateinit var textViewWeatherHumidity : TextView
     private lateinit var textViewWeatherPressure : TextView
+    private lateinit var recyclerViewWeatherForecast : RecyclerView
+
+    private var forecastItemList : ArrayList<ForecastItem> = ArrayList<ForecastItem>()
 
 
 
@@ -35,20 +42,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         init()
-        mGetCurrentWeather = DataManager.getCurrentWeather(object : IApiResponse<WeatherCurrent>
-        {
-            override fun onSuccess(obj: WeatherCurrent?) {
-                if (obj != null) {
-                    setCurrentWeatherData(obj)
-                }
-            }
-
-            override fun onError(t: Throwable) {
-                println(t)
-            }
-
-        }
-        )
+        loadData()
     }
 
     fun setCurrentWeatherData(weatherCurrent: WeatherCurrent){
@@ -79,6 +73,54 @@ class MainActivity : AppCompatActivity() {
         textViewWeatherRain = findViewById(R.id.weather_activity_rain_textView)
         textViewWeatherHumidity = findViewById(R.id.weather_activity_humidity_textView)
         textViewWeatherPressure = findViewById(R.id.weather_activity_pressure_textView)
+    }
+
+    fun loadData(){
+        DataManager.getCurrentWeather(object : IApiResponse<WeatherCurrent>
+        {
+            override fun onSuccess(obj: WeatherCurrent?) {
+                if (obj != null) {
+                    setCurrentWeatherData(obj)
+                    DataManager.getWeatherForecastForOneWeek(object : IApiResponse<WeatherForecast>
+                    {
+                        override fun onSuccess(obj: WeatherForecast?) {
+                            println(obj)
+                            if (obj != null) {
+                                setForecastItem(obj)
+                                recyclerViewWeatherForecast.layoutManager = LinearLayoutManager(this@MainActivity)
+                                recyclerViewWeatherForecast.adapter = WeatherForecastAdapter(forecastItemList,this@MainActivity)
+
+
+                            }
+
+                        }
+
+                        override fun onError(t: Throwable) {
+                            println(t)
+                        }
+
+                    }
+                    )
+
+
+                }
+            }
+
+            override fun onError(t: Throwable) {
+                println(t)
+            }
+
+        }
+        )
+    }
+
+    fun setForecastItem(weatherForecast : WeatherForecast){
+
+        for(forecastItem in weatherForecast.list){
+            val result = ForecastItem(day = "test",temperature_min = forecastItem.temp.min.toInt(),temperature_max = forecastItem.temp.max.toInt())
+            forecastItemList.add(result)
+        }
+
     }
 
 
