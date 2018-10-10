@@ -9,15 +9,16 @@ import android.widget.TextView
 import com.example.a727222.weatherapp.R
 import com.example.a727222.weatherapp.adapter.WeatherForecastAdapter
 import com.example.a727222.weatherapp.interfaces.IApiResponse
+import com.example.a727222.weatherapp.interfaces.OnItemWeatherForecastClickListener
 import com.example.a727222.weatherapp.manager.DataManager
 import com.example.a727222.weatherapp.models.ForecastItem
 import com.example.a727222.weatherapp.models.WeatherCurrent
 import com.example.a727222.weatherapp.models.WeatherForecast
 import com.example.a727222.weatherapp.utils.Utils
+import java.text.SimpleDateFormat
+import java.util.*
 
-class MainActivity : AppCompatActivity() {
-
-
+class MainActivity : AppCompatActivity(), OnItemWeatherForecastClickListener {
 
     private lateinit var textViewWeatherCity : TextView
     private lateinit var textViewWeatherMain : TextView
@@ -32,11 +33,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var textViewWeatherPressure : TextView
     private lateinit var recyclerViewWeatherForecast : RecyclerView
 
+
     private var forecastItemList : ArrayList<ForecastItem> = ArrayList<ForecastItem>()
-
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,21 +43,21 @@ class MainActivity : AppCompatActivity() {
         loadData()
     }
 
-    fun setCurrentWeatherData(weatherCurrent: WeatherCurrent){
-        textViewWeatherCity.setText(weatherCurrent.name)
-        textViewWeatherMain.setText(weatherCurrent.weather.get(0).main)
-        textViewWeatherTemperature.setText(Utils.convertKelvinToCelsius(weatherCurrent.main.temp).toInt().toString() + getString(R.string.weather_activity_unit_degree))
+    fun setCurrentWeatherData(weatherCurrent: WeatherCurrent?){
+        textViewWeatherCity.setText(weatherCurrent?.name)
+        textViewWeatherMain.setText(weatherCurrent?.weather?.get(0)?.main)
+        textViewWeatherTemperature.setText(Utils.convertKelvinToCelsius(weatherCurrent?.main?.temp)?.toInt().toString() + getString(R.string.weather_activity_unit_degree))
 
-        textViewWeatherSunrise.setText(getString(R.string.weather_activity_label_sunrise) + weatherCurrent.sys.sunrise.toString())
-        textViewWeatherSunset.setText(getString(R.string.weather_activity_label_sunset) + weatherCurrent.sys.sunset.toString())
-        textViewWeatherClouds.setText(getString(R.string.weather_activity_label_clouds) + weatherCurrent.clouds.all.toString() + getString(R.string.weather_activity_unit_percent))
-        if(weatherCurrent.rain == null){
+        textViewWeatherSunrise.setText(getString(R.string.weather_activity_label_sunrise) + weatherCurrent?.sys?.sunrise.toString())
+        textViewWeatherSunset.setText(getString(R.string.weather_activity_label_sunset) + weatherCurrent?.sys?.sunset.toString())
+        textViewWeatherClouds.setText(getString(R.string.weather_activity_label_clouds) + weatherCurrent?.clouds?.all.toString() + getString(R.string.weather_activity_unit_percent))
+        if(weatherCurrent?.rain == null){
             textViewWeatherRain.setText(getString(R.string.weather_activity_label_rain) + getString(R.string.weather_activity_rain_empty_state))
         }else {
             textViewWeatherRain.setText(getString(R.string.weather_activity_label_rain) + weatherCurrent.rain.volume.toString() + getString(R.string.weather_activity_unit_volume))
         }
-        textViewWeatherHumidity.setText(getString(R.string.weather_activity_label_humidity) + weatherCurrent.main.humidity.toString() + getString(R.string.weather_activity_unit_percent))
-        textViewWeatherPressure.setText(getString(R.string.weather_activity_label_pressure) + weatherCurrent.main.pressure.toString() + getString(R.string.weather_activity_unit_pressure))
+        textViewWeatherHumidity.setText(getString(R.string.weather_activity_label_humidity) + weatherCurrent?.main?.humidity.toString() + getString(R.string.weather_activity_unit_percent))
+        textViewWeatherPressure.setText(getString(R.string.weather_activity_label_pressure) + weatherCurrent?.main?.pressure.toString() + getString(R.string.weather_activity_unit_pressure))
     }
 
     fun init(){
@@ -73,25 +71,21 @@ class MainActivity : AppCompatActivity() {
         textViewWeatherRain = findViewById(R.id.weather_activity_rain_textView)
         textViewWeatherHumidity = findViewById(R.id.weather_activity_humidity_textView)
         textViewWeatherPressure = findViewById(R.id.weather_activity_pressure_textView)
+        recyclerViewWeatherForecast = findViewById(R.id.weather_activity_forecast_recyclerView)
     }
 
     fun loadData(){
         DataManager.getCurrentWeather(object : IApiResponse<WeatherCurrent>
         {
             override fun onSuccess(obj: WeatherCurrent?) {
-                if (obj != null) {
                     setCurrentWeatherData(obj)
                     DataManager.getWeatherForecastForOneWeek(object : IApiResponse<WeatherForecast>
                     {
                         override fun onSuccess(obj: WeatherForecast?) {
-                            println(obj)
-                            if (obj != null) {
+
                                 setForecastItem(obj)
                                 recyclerViewWeatherForecast.layoutManager = LinearLayoutManager(this@MainActivity)
-                                recyclerViewWeatherForecast.adapter = WeatherForecastAdapter(forecastItemList,this@MainActivity)
-
-
-                            }
+                                recyclerViewWeatherForecast.adapter = WeatherForecastAdapter(forecastItemList,this@MainActivity,this@MainActivity)
 
                         }
 
@@ -103,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                     )
 
 
-                }
+
             }
 
             override fun onError(t: Throwable) {
@@ -114,12 +108,21 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    fun setForecastItem(weatherForecast : WeatherForecast){
+    fun setForecastItem(weatherForecast : WeatherForecast?){
 
-        for(forecastItem in weatherForecast.list){
-            val result = ForecastItem(day = "test",temperature_min = forecastItem.temp.min.toInt(),temperature_max = forecastItem.temp.max.toInt())
-            forecastItemList.add(result)
+
+        val SimpleDateFormatDayOfWeek = SimpleDateFormat("EEEE", Locale.ENGLISH)
+
+
+        for((index,forecastItem) in weatherForecast?.list?.withIndex()!!){
+            val calendar : Calendar = Calendar.getInstance()
+            calendar.add(Calendar.DAY_OF_YEAR, index)
+            val forecastDate : Date = calendar.time
+            val forecastItem = ForecastItem(day = SimpleDateFormatDayOfWeek.format(forecastDate), temperature_min = Utils.convertKelvinToCelsius(forecastItem.temp.min)?.toInt(), temperature_max = Utils.convertKelvinToCelsius(forecastItem.temp.max)?.toInt())
+            forecastItemList.add(forecastItem)
+
         }
+
 
     }
 

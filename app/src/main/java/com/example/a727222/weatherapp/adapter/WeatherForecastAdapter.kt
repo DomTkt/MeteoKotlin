@@ -5,11 +5,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.a727222.weatherapp.R
+import com.example.a727222.weatherapp.interfaces.OnItemWeatherForecastClickListener
 import com.example.a727222.weatherapp.models.ForecastItem
 import com.example.a727222.weatherapp.viewholder.WeatherForecastViewHolder
 
-class WeatherForecastAdapter(val items : ArrayList<ForecastItem>,val context : Context) : RecyclerView.Adapter<WeatherForecastViewHolder>() {
-
+class WeatherForecastAdapter(val items : ArrayList<ForecastItem>,val context : Context, onItemClickListener : OnItemWeatherForecastClickListener) : RecyclerView.Adapter<WeatherForecastViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherForecastViewHolder {
         return WeatherForecastViewHolder(LayoutInflater.from(context).inflate(R.layout.weather_forecast_list_item, parent, false))
@@ -20,7 +20,8 @@ class WeatherForecastAdapter(val items : ArrayList<ForecastItem>,val context : C
     }
 
     override fun onBindViewHolder(holder: WeatherForecastViewHolder, position: Int) {
-
+        holder.bind(item = items.get(position),context = context)
     }
 
 }
+
