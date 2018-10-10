@@ -9,10 +9,18 @@ import com.example.a727222.weatherapp.interfaces.OnItemWeatherForecastClickListe
 import com.example.a727222.weatherapp.models.ForecastItem
 import com.example.a727222.weatherapp.viewholder.WeatherForecastViewHolder
 
-class WeatherForecastAdapter(val items : ArrayList<ForecastItem>,val context : Context, onItemClickListener : OnItemWeatherForecastClickListener) : RecyclerView.Adapter<WeatherForecastViewHolder>() {
+
+
+class WeatherForecastAdapter(val items : ArrayList<ForecastItem>,val context : Context, clickListener : OnItemWeatherForecastClickListener) : RecyclerView.Adapter<WeatherForecastViewHolder>() {
+
+    private var onItemClickListener: OnItemWeatherForecastClickListener?
+
+    init {
+        onItemClickListener = clickListener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherForecastViewHolder {
-        return WeatherForecastViewHolder(LayoutInflater.from(context).inflate(R.layout.weather_forecast_list_item, parent, false))
+        return WeatherForecastViewHolder(LayoutInflater.from(context).inflate(R.layout.weather_forecast_list_item, parent, false),onItemClickListener)
     }
 
     override fun getItemCount(): Int {

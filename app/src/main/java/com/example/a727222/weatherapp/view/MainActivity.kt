@@ -18,7 +18,9 @@ import com.example.a727222.weatherapp.utils.Utils
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MainActivity : AppCompatActivity(), OnItemWeatherForecastClickListener {
+class MainActivity : AppCompatActivity(), OnItemWeatherForecastClickListener{
+
+
 
     private lateinit var textViewWeatherCity : TextView
     private lateinit var textViewWeatherMain : TextView
@@ -124,6 +126,11 @@ class MainActivity : AppCompatActivity(), OnItemWeatherForecastClickListener {
         }
 
 
+    }
+
+    override fun onItemWeatherClick(position: Int) {
+        var test : ForecastItem = forecastItemList.get(position)
+        println(test)
     }
 
 
