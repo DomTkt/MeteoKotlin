@@ -1,5 +1,7 @@
 package com.example.a727222.weatherapp.models
 
+import java.io.Serializable
+
 
 data class WeatherForecast(
     val city: City,
@@ -7,5 +9,5 @@ data class WeatherForecast(
     val message: Double,
     val cnt: Int,
     val list: List<WeatherForecastDay>
-)
+) : Serializable
 

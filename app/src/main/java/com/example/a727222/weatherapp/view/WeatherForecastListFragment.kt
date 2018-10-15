@@ -1,6 +1,7 @@
 package com.example.a727222.weatherapp.view
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -19,10 +20,26 @@ import com.example.a727222.weatherapp.utils.Utils
 import java.text.SimpleDateFormat
 import java.util.*
 
+
+
 class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListener {
 
+
+    companion object {
+
+        fun newInstance(): WeatherForecastListFragment {
+            return WeatherForecastListFragment()
+        }
+
+        val WEATHER_FORECAST_DETAILS_POSITION_CONST : String = "WeatherForecastDetailsPosition"
+    }
+
     override fun onItemWeatherClick(position: Int) {
-        println(weatherForecast?.list?.get(position))
+
+        val intent = Intent(this.context,WeatherForecastDetailsActivity::class.java)
+        intent.putExtra(WEATHER_FORECAST_DETAILS_POSITION_CONST,position)
+        startActivity(intent)
+
     }
 
     private var forecastItemList : ArrayList<ForecastItem> = ArrayList<ForecastItem>()
@@ -35,13 +52,6 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
         recyclerViewWeatherForecast = view.findViewById(R.id.weather_forecast_list_fragment_recyclerView)
         loadData()
         return view
-    }
-
-    companion object {
-
-        fun newInstance(): WeatherForecastListFragment {
-            return WeatherForecastListFragment()
-        }
     }
 
     fun setForecastItem(weatherForecast : WeatherForecast?){

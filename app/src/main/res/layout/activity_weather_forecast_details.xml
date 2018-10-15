@@ -6,4 +6,91 @@
     android:layout_height="match_parent"
     tools:context=".view.WeatherForecastDetailsActivity">
 
+    <TextView
+        android:id="@+id/weather_forecast_day_detail_day_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="50dp"
+        tools:text="Monday"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/weather_current_principal_details_city_textView"
+
+        />
+
+    <TextView
+        android:id="@+id/weather_forecast_day_detail_city_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weather_forecast_day_detail_day_textView"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/weather_forecast_day_detail_temperature_textView"
+        tools:text="Lyon"
+        />
+
+    <TextView
+        android:id="@+id/weather_forecast_day_detail_temperature_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/weather_forecast_day_detail_city_textView"
+        tools:text="18°"
+        />
+
+    <ImageView
+        android:id="@+id/weather_forecast_day_detail_icon_textView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/weather_forecast_day_detail_temperature_textView"
+        />
+
+    <TextView
+        android:id="@+id/weather_forecast_day_detail_temperature_night_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/weather_forecast_day_detail_icon_textView"
+        tools:text="Temperature at night : 5°"
+        />
+
+    <TextView
+        android:id="@+id/weather_forecast_day_detail_temperature_morning_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/weather_forecast_day_detail_temperature_night_textView"
+        tools:text="Temperature at morning : 10°"
+        />
+
+    <TextView
+        android:id="@+id/weather_forecast_day_detail_temperature_max_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/weather_forecast_day_detail_temperature_morning_textView"
+        tools:text="Temperature max : 20°"
+        />
+
+    <TextView
+        android:id="@+id/weather_forecast_day_detail_temperature_min_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/weather_forecast_day_detail_temperature_max_textView"
+        tools:text="Temperature min : 3°"
+        />
+
+
 </android.support.constraint.ConstraintLayout>

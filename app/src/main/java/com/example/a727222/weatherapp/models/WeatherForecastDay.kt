@@ -1,6 +1,7 @@
 package com.example.a727222.weatherapp.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class WeatherForecastDay(
         val dt: Int,
@@ -14,4 +15,4 @@ data class WeatherForecastDay(
         val cloudss : Int,
         val rain: Double,
         val snow: Double
-)
+) : Serializable
