@@ -11,6 +11,7 @@ import com.example.a727222.weatherapp.R
 import com.example.a727222.weatherapp.interfaces.IApiResponse
 import com.example.a727222.weatherapp.manager.DataManager
 import com.example.a727222.weatherapp.models.WeatherCurrent
+import com.example.a727222.weatherapp.utils.Utils
 
 class WeatherCurrentAdditionalDetailsFragment : Fragment() {
 
@@ -47,8 +48,8 @@ class WeatherCurrentAdditionalDetailsFragment : Fragment() {
 
     fun setWeatherCurrentAdditionalDetailsData(weatherCurrent: WeatherCurrent?){
 
-        textViewWeatherSunrise.setText(getString(R.string.weather_activity_label_sunrise) + weatherCurrent?.sys?.sunrise.toString())
-        textViewWeatherSunset.setText(getString(R.string.weather_activity_label_sunset) + weatherCurrent?.sys?.sunset.toString())
+        textViewWeatherSunrise.setText(getString(R.string.weather_activity_label_sunrise) + Utils.convertTimeStampInSuntimes(weatherCurrent?.sys?.sunrise?.toLong()))
+        textViewWeatherSunset.setText(getString(R.string.weather_activity_label_sunset) + Utils.convertTimeStampInSuntimes(weatherCurrent?.sys?.sunset?.toLong()))
         textViewWeatherClouds.setText(getString(R.string.weather_activity_label_clouds) + weatherCurrent?.clouds?.all.toString() + getString(R.string.weather_activity_unit_percent))
         if(weatherCurrent?.rain == null){
             textViewWeatherRain.setText(getString(R.string.weather_activity_label_rain) + getString(R.string.weather_activity_rain_empty_state))

@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".view.WeatherActivity">
 
+    <ImageView
+        android:id="@+id/weather_current_image_background_imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

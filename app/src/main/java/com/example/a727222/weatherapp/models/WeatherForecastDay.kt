@@ -14,5 +14,8 @@ data class WeatherForecastDay(
         @SerializedName("clouds")
         val cloudss : Int,
         val rain: Double,
-        val snow: Double
+        val snow: Double,
+        var city: City?,
+        var day : String
+
 ) : Serializable

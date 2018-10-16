@@ -19,6 +19,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:text="Thursday" />
 
+
+        <ImageView
+            android:id="@+id/recycler_view_forecast_icon_imageView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintLeft_toRightOf="@+id/recycler_view_forecast_day_textView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:src="@tools:sample/avatars"
+            />
+
     <TextView
         android:id="@+id/recycler_view_forecast_temperature_max"
         android:layout_width="wrap_content"

@@ -16,6 +16,7 @@ import com.example.a727222.weatherapp.interfaces.OnItemWeatherForecastClickListe
 import com.example.a727222.weatherapp.manager.DataManager
 import com.example.a727222.weatherapp.models.ForecastItem
 import com.example.a727222.weatherapp.models.WeatherForecast
+import com.example.a727222.weatherapp.models.WeatherForecastDay
 import com.example.a727222.weatherapp.utils.Utils
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,20 +25,22 @@ import java.util.*
 
 class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListener {
 
-
     companion object {
 
         fun newInstance(): WeatherForecastListFragment {
             return WeatherForecastListFragment()
         }
 
-        val WEATHER_FORECAST_DETAILS_POSITION_CONST : String = "WeatherForecastDetailsPosition"
+        val WEATHER_FORECAST_DAY_EXTRA : String = "WEATHER_FORECAST_DAY_EXTRA"
     }
 
     override fun onItemWeatherClick(position: Int) {
 
         val intent = Intent(this.context,WeatherForecastDetailsActivity::class.java)
-        intent.putExtra(WEATHER_FORECAST_DETAILS_POSITION_CONST,position)
+        var weatherForecastDay : WeatherForecastDay? = weatherForecast?.list?.get(position)
+        weatherForecastDay?.city = weatherForecast?.city
+        weatherForecastDay?.day = forecastItemList.get(position).day
+        intent.putExtra(WEATHER_FORECAST_DAY_EXTRA,weatherForecastDay)
         startActivity(intent)
 
     }
@@ -60,16 +63,14 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
         val SimpleDateFormatDayOfWeek = SimpleDateFormat("EEEE", Locale.ENGLISH)
 
 
-        for((index,forecastItem) in weatherForecast?.list?.withIndex()!!){
+        for((index,forecastItems) in weatherForecast?.list?.withIndex()!!){
             val calendar : Calendar = Calendar.getInstance()
             calendar.add(Calendar.DAY_OF_YEAR, index)
             val forecastDate : Date = calendar.time
-            val forecastItem = ForecastItem(day = SimpleDateFormatDayOfWeek.format(forecastDate), temperature_min = Utils.convertKelvinToCelsius(forecastItem.temp.min)?.toInt(), temperature_max = Utils.convertKelvinToCelsius(forecastItem.temp.max)?.toInt())
+            val forecastItem = ForecastItem(day = SimpleDateFormatDayOfWeek.format(forecastDate), temperature_min = Utils.convertKelvinToCelsius(forecastItems.temp.min), temperature_max = Utils.convertKelvinToCelsius(forecastItems.temp.max),icon = forecastItems.weather.get(0).icon)
             forecastItemList.add(forecastItem)
 
         }
-
-
     }
 
     fun loadData(){

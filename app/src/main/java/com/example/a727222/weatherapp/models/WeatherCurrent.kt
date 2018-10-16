@@ -1,5 +1,7 @@
 package com.example.a727222.weatherapp.models
 
+import java.io.Serializable
+
 
 data class WeatherCurrent(
     val coord: Coord,
@@ -16,4 +18,4 @@ data class WeatherCurrent(
     val cod: Int,
     val rain: Rain,
     val snow: Snow
-)
+) : Serializable

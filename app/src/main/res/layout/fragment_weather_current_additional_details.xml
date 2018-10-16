@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -14,6 +15,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:text="Sunrise : 7:21 AM"
+        style="@style/weatherCommonTextView"
         />
 
     <TextView
@@ -25,6 +27,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:text="Sunset : 7:48 AM"
+        style="@style/weatherCommonTextView"
         />
 
     <TextView
@@ -36,6 +39,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:text="Cloud : 92%"
+        style="@style/weatherCommonTextView"
         />
 
     <TextView
@@ -46,6 +50,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:text="Rain : 0mm"
+        style="@style/weatherCommonTextView"
         />
 
     <TextView
@@ -57,6 +62,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:text="Humidity : 93%"
+        style="@style/weatherCommonTextView"
         />
 
     <TextView
@@ -67,6 +73,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:text="Pressure : 1005 hPa"
+        style="@style/weatherCommonTextView"
         />
 
 </android.support.constraint.ConstraintLayout>

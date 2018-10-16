@@ -3,19 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="#000"
+    >
 
     <TextView
         android:id="@+id/weather_current_principal_details_city_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="20dp"
-        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Lyon"
+        style="@style/weatherTitleTewtViewStyle"
         />
 
     <TextView
@@ -27,6 +27,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/weather_current_principal_details_city_textView"
         tools:text="Heavy intensity rain"
+        style="@style/weatherCommonTextView"
         />
 
     <TextView
@@ -38,6 +39,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/weather_current_principal_details_main_textView"
         tools:text="13°"
+        style="@style/weatherCommonTextView"
         />
 
     <ImageView
