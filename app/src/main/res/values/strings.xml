@@ -29,4 +29,9 @@
     <string name="app_label">Searchhh</string>
     <string name="search_hint">search_hint</string>
 
+    <!-- Details Weather Activity -->
+
+    <string name="weather_forecast_details_activity_label_temperature_min"></string>
+
+
 </resources>

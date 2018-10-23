@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/image_background"
     tools:context=".view.WeatherForecastDetailsActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/weather_forecast_day_detail_day_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="50dp"
+        style="@style/weatherTitleTewtViewStyle"
         tools:text="Monday"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -28,6 +34,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/weather_forecast_day_detail_temperature_textView"
         tools:text="Lyon"
+        style="@style/weatherCommonTextView"
         />
 
     <TextView
@@ -38,6 +45,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/weather_forecast_day_detail_city_textView"
         tools:text="18°"
+        style="@style/weatherCommonTextView"
         />
 
     <ImageView
@@ -48,6 +56,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/weather_forecast_day_detail_temperature_textView"
+        style="@style/weatherCommonTextView"
         />
 
     <TextView
@@ -59,6 +68,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/weather_forecast_day_detail_icon_imageView"
         tools:text="Temperature at night : 5°"
+        style="@style/weatherCommonTextView"
         />
 
     <TextView
@@ -69,6 +79,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/weather_forecast_day_detail_temperature_night_textView"
         tools:text="Temperature at morning : 10°"
+        style="@style/weatherCommonTextView"
         />
 
     <TextView
@@ -79,6 +90,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/weather_forecast_day_detail_temperature_morning_textView"
         tools:text="Temperature max : 20°"
+        style="@style/weatherCommonTextView"
         />
 
     <TextView
@@ -89,7 +101,10 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/weather_forecast_day_detail_temperature_max_textView"
         tools:text="Temperature min : 3°"
+        style="@style/weatherCommonTextView"
         />
 
+    </android.support.constraint.ConstraintLayout>
 
-</android.support.constraint.ConstraintLayout>
+
+</ScrollView>
