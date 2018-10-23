@@ -25,6 +25,8 @@ import java.util.*
 
 class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListener {
 
+
+
     companion object {
 
         fun newInstance(): WeatherForecastListFragment {
@@ -48,12 +50,19 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
     private var forecastItemList : ArrayList<ForecastItem> = ArrayList<ForecastItem>()
     private var weatherForecast : WeatherForecast? = null
     private lateinit var recyclerViewWeatherForecast : RecyclerView
+    var citySearch : String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_weather_forecast_list, container, false)
         recyclerViewWeatherForecast = view.findViewById(R.id.weather_forecast_list_fragment_recyclerView)
-        loadData()
+        var b : Bundle? = arguments
+        citySearch = b?.getString(WeatherActivity.WEATHER_ACTIVITY_ARGUMENTS)
+        if(citySearch != null){
+            loadDataSearch(citySearch)
+        }else {
+            loadData()
+        }
         return view
     }
 
@@ -90,6 +99,30 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
 
         }
         )
+    }
+
+    fun loadDataSearch(city : String?){
+        DataManager.getWeatherForecastForOneWeekSearch(object : IApiResponse<WeatherForecast>
+        {
+            override fun onSuccess(obj: WeatherForecast?) {
+
+                if(obj != null) {
+                    weatherForecast = obj
+                    setForecastItem(obj)
+                    recyclerViewWeatherForecast.layoutManager = LinearLayoutManager(this@WeatherForecastListFragment.context)
+                    recyclerViewWeatherForecast.adapter = WeatherForecastAdapter(forecastItemList, this@WeatherForecastListFragment.requireContext(), this@WeatherForecastListFragment)
+                }else{
+                    loadData()
+                }
+
+            }
+
+            override fun onError(t: Throwable) {
+                println(t)
+            }
+
+        }
+        ,searchCity = city)
     }
 
 }

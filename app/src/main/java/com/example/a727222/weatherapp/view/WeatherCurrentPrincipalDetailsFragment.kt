@@ -14,20 +14,35 @@ import com.example.a727222.weatherapp.manager.DataManager
 import com.example.a727222.weatherapp.models.WeatherCurrent
 import com.example.a727222.weatherapp.utils.Utils
 
-class WeatherCurrentPrincipalDetailsFragment : Fragment() {
+class WeatherCurrentPrincipalDetailsFragment : Fragment(){
 
     private lateinit var textViewWeatherCity : TextView
     private lateinit var textViewWeatherMain : TextView
     private lateinit var textViewWeatherTemperature : TextView
     private lateinit var imageViewWeatherIcon : ImageView
 
+    var citySearch : String? = null
+
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_weather_current_principal_details, container, false)
         init(view)
-        loadData()
+        var b : Bundle? = arguments
+        citySearch = b?.getString(WeatherActivity.WEATHER_ACTIVITY_ARGUMENTS)
+        if(citySearch != null){
+            loadDataSearch(citySearch)
+        }else {
+            loadData()
+        }
         return view
     }
+
+    init {
+
+    }
+
 
     companion object {
         fun newInstance(): WeatherCurrentPrincipalDetailsFragment {
@@ -63,5 +78,23 @@ class WeatherCurrentPrincipalDetailsFragment : Fragment() {
         }
         )
     }
+
+    fun loadDataSearch(searchCity : String?){
+        DataManager.getCurrentWeatherSearch(object : IApiResponse<WeatherCurrent>{
+            override fun onSuccess(obj: WeatherCurrent?) {
+                if(obj != null) {
+                    setWeatherCurrentPrincipalDetailsData(obj)
+                }else{
+                    loadData()
+                }
+            }
+
+            override fun onError(t: Throwable) {
+
+            }
+
+        },searchCity)
+    }
+
 
 }

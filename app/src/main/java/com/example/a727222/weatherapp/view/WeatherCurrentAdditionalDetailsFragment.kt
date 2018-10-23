@@ -22,11 +22,19 @@ class WeatherCurrentAdditionalDetailsFragment : Fragment() {
     private lateinit var textViewWeatherHumidity : TextView
     private lateinit var textViewWeatherPressure : TextView
 
+    var citySearch : String? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_weather_current_additional_details, container, false)
         init(view)
-        loadData()
+        var b : Bundle? = arguments
+        citySearch = b?.getString(WeatherActivity.WEATHER_ACTIVITY_ARGUMENTS)
+        if(citySearch != null){
+            loadDataSearch(citySearch)
+        }else {
+            loadData()
+        }
         return view
     }
 
@@ -72,6 +80,23 @@ class WeatherCurrentAdditionalDetailsFragment : Fragment() {
             }
         }
         )
+    }
+
+    fun loadDataSearch(searchCity : String?){
+        DataManager.getCurrentWeatherSearch(object : IApiResponse<WeatherCurrent>{
+            override fun onSuccess(obj: WeatherCurrent?) {
+                if(obj != null) {
+                    setWeatherCurrentAdditionalDetailsData(obj)
+                }else{
+                    loadData()
+                }
+            }
+
+            override fun onError(t: Throwable) {
+
+            }
+
+        },searchCity)
     }
 
 

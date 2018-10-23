@@ -35,8 +35,41 @@ object DataManager {
         return listCurrentWeather
     }
 
+    fun getCurrentWeatherSearch(callback : IApiResponse<WeatherCurrent>, searchCity : String?) : Call<WeatherCurrent> {
+        val listCurrentWeather = create().listWeatherCurrentSearch(searchCity)
+        listCurrentWeather.enqueue(object : Callback<WeatherCurrent> {
+            override fun onResponse(call: Call<WeatherCurrent>, response: Response<WeatherCurrent>) {
+                callback.onSuccess(response.body())
+            }
+            override fun onFailure(call: Call<WeatherCurrent>, t: Throwable) {
+
+            }
+        })
+        return listCurrentWeather
+    }
+
+
+
     fun getWeatherForecastForOneWeek(callback : IApiResponse<WeatherForecast>) : Call<WeatherForecast>{
         val listWeatherForecast = create().listWeatherForecast()
+        listWeatherForecast.enqueue(object : Callback<WeatherForecast>
+        {
+            override fun onResponse(call: Call<WeatherForecast>, response: Response<WeatherForecast>) {
+                callback.onSuccess(response.body())
+            }
+
+
+            override fun onFailure(call: Call<WeatherForecast>, t: Throwable) {
+                callback.onError(t)
+            }
+
+        }
+        )
+        return listWeatherForecast
+    }
+
+    fun getWeatherForecastForOneWeekSearch(callback : IApiResponse<WeatherForecast>, searchCity : String?) : Call<WeatherForecast>{
+        val listWeatherForecast = create().listWeatherForecastSearch(searchCity)
         listWeatherForecast.enqueue(object : Callback<WeatherForecast>
         {
             override fun onResponse(call: Call<WeatherForecast>, response: Response<WeatherForecast>) {

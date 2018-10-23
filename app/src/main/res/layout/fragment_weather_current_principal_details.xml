@@ -5,17 +5,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:background="#000"
+    android:paddingTop="10dp"
     >
 
     <TextView
         android:id="@+id/weather_current_principal_details_city_textView"
+        style="@style/weatherTitleTewtViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/weather_current_principal_details_icon_imageView"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Lyon" />
+
+    <TextView
+        android:id="@+id/weather_current_principal_details_temperature_textView"
+        style="@style/weatherCommonTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="20dp"
+        android:textSize="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/weather_current_principal_details_icon_imageView"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Lyon"
-        style="@style/weatherTitleTewtViewStyle"
+        tools:text="13°" />
+
+    <ImageView
+        android:id="@+id/weather_current_principal_details_icon_imageView"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/weather_current_principal_details_temperature_textView"
+        app:layout_constraintLeft_toRightOf="@+id/weather_current_principal_details_city_textView"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        tools:src="@tools:sample/avatars"
         />
 
     <TextView
@@ -23,34 +50,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weather_current_principal_details_city_textView"
+        app:layout_constraintRight_toLeftOf="@id/weather_current_principal_details_temperature_textView"
+        app:layout_constraintLeft_toRightOf="@+id/weather_current_principal_details_city_textView"
+        app:layout_constraintTop_toBottomOf="@id/weather_current_principal_details_icon_imageView"
         tools:text="Heavy intensity rain"
         style="@style/weatherCommonTextView"
-        />
-
-    <TextView
-        android:id="@+id/weather_current_principal_details_temperature_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weather_current_principal_details_main_textView"
-        tools:text="13°"
-        style="@style/weatherCommonTextView"
-        />
-
-    <ImageView
-        android:id="@+id/weather_current_principal_details_icon_imageView"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintTop_toBottomOf="@id/weather_current_principal_details_temperature_textView"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:src="@tools:sample/avatars"
         />
 
 </android.support.constraint.ConstraintLayout>

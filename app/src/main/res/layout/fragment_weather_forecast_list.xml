@@ -4,10 +4,12 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
-        android:background="@color/white"
+        android:background="@null"
         android:id="@+id/weather_forecast_list_fragment_recyclerView"
         android:layout_width="match_parent"
+        android:clipToPadding="false"
         android:layout_height="wrap_content">
+
     </android.support.v7.widget.RecyclerView>
 
 </android.support.constraint.ConstraintLayout>
