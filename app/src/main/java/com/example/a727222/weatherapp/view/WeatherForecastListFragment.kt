@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.a727222.weatherapp.R
+import com.example.a727222.weatherapp.RestClientK
 import com.example.a727222.weatherapp.adapter.WeatherForecastAdapter
 import com.example.a727222.weatherapp.interfaces.IApiResponse
 import com.example.a727222.weatherapp.interfaces.OnItemWeatherForecastClickListener
@@ -25,7 +26,7 @@ import java.util.*
 
 class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListener {
 
-
+    lateinit var manager : DataManager
 
     companion object {
 
@@ -54,6 +55,10 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+
+        var restClientK : RestClientK = RestClientK()
+        manager = DataManager(this.requireContext(),networker = restClientK)
+
         val view = inflater?.inflate(R.layout.fragment_weather_forecast_list, container, false)
         recyclerViewWeatherForecast = view.findViewById(R.id.weather_forecast_list_fragment_recyclerView)
         var b : Bundle? = arguments
@@ -83,7 +88,7 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
     }
 
     fun loadData(){
-        DataManager.getWeatherForecastForOneWeek(object : IApiResponse<WeatherForecast>
+        manager.getWeatherForecastForOneWeek(object : IApiResponse<WeatherForecast>
         {
             override fun onSuccess(obj: WeatherForecast?) {
                 weatherForecast = obj
@@ -102,7 +107,7 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
     }
 
     fun loadDataSearch(city : String?){
-        DataManager.getWeatherForecastForOneWeekSearch(object : IApiResponse<WeatherForecast>
+        manager.getWeatherForecastForOneWeekSearch(object : IApiResponse<WeatherForecast>
         {
             override fun onSuccess(obj: WeatherForecast?) {
 

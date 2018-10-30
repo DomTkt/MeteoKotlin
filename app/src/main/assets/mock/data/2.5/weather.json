@@ -1,0 +1,53 @@
+{"coord": {
+    "lon": 4.83,
+    "lat": 45.76
+  },
+  "weather": [
+    {
+      "id": 501,
+      "main": "Rain",
+      "description": "moderate rain",
+      "icon": "10d"
+    },
+    {
+      "id": 701,
+      "main": "Mist",
+      "description": "mist",
+      "icon": "50d"
+    },
+    {
+      "id": 615,
+      "main": "Snow",
+      "description": "light rain and snow",
+      "icon": "13d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 277.38,
+    "pressure": 992,
+    "humidity": 86,
+    "temp_min": 276.15,
+    "temp_max": 278.15
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 5.1,
+    "deg": 330
+  },
+  "clouds": {
+    "all": 92
+  },
+  "dt": 1540818000,
+  "sys": {
+    "type": 1,
+    "id": 5576,
+    "message": 0.0036,
+    "country": "FR",
+    "sunrise": 1540793816,
+    "sunset": 1540830665
+  },
+  "id": 2996944,
+  "name": "Lyon",
+  "cod": 200
+}
