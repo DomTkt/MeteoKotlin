@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/image_background"
-    tools:context=".view.WeatherForecastDetailsActivity">
+    tools:context=".view.activity.WeatherForecastDetailsActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

@@ -1,11 +1,11 @@
-package com.example.a727222.weatherapp
+package com.example.a727222.weatherapp.network
 
 import android.content.Context
 import com.example.a727222.weatherapp.interfaces.IApiResponse
+import com.example.a727222.weatherapp.interfaces.IWeatherItemAPIServices
 import com.example.a727222.weatherapp.interfaces.Networking
 import com.example.a727222.weatherapp.models.WeatherCurrent
 import com.example.a727222.weatherapp.models.WeatherForecast
-import com.example.a727222.weatherapp.services.IWeatherItemAPIServices
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback

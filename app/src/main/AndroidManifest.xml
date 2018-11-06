@@ -7,14 +7,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".daggerTestDeleteAfter.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".view.WeatherActivity"
+        <activity android:name=".view.activity.WeatherActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             >
             <intent-filter>
@@ -23,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.WeatherForecastDetailsActivity"></activity>
+        <activity android:name=".view.activity.WeatherForecastDetailsActivity"></activity>
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAHKaHHStio3k9pVKY-dYGp2koKr50QGjI"/>
     </application>
 

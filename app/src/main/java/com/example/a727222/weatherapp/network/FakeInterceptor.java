@@ -1,4 +1,4 @@
-package com.example.a727222.weatherapp;
+package com.example.a727222.weatherapp.network;
 
 import android.content.Context;
 import android.util.Log;

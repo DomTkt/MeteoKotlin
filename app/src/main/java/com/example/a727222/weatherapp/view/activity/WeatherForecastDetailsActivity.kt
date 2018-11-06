@@ -1,4 +1,4 @@
-package com.example.a727222.weatherapp.view
+package com.example.a727222.weatherapp.view.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -6,9 +6,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.a727222.weatherapp.R
 import com.example.a727222.weatherapp.models.WeatherForecastDay
+import com.example.a727222.weatherapp.presenter.WeatherForecastDetailsActivityPresenter
 import com.example.a727222.weatherapp.utils.Utils
 
-class WeatherForecastDetailsActivity : AppCompatActivity() {
+class WeatherForecastDetailsActivity : AppCompatActivity(), WeatherForecastDetailsActivityPresenter.View {
 
     private lateinit var weatherDetailDayTextView : TextView
     private lateinit var weatherDetailCityTextView : TextView
@@ -20,13 +21,14 @@ class WeatherForecastDetailsActivity : AppCompatActivity() {
     private lateinit var weatherDetailTemperatureMaxTextView : TextView
     private lateinit var weatherDetailTemperatureMinTextView : TextView
 
-    private var weatherForecastDay : WeatherForecastDay? = null
+    private lateinit var presenter: WeatherForecastDetailsActivityPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather_forecast_details)
-        weatherForecastDay = intent.getSerializableExtra(WeatherForecastListFragment.WEATHER_FORECAST_DAY_EXTRA) as WeatherForecastDay
         init()
-        setForecastDetailDayData(weatherForecastDay)
+        presenter = WeatherForecastDetailsActivityPresenter(intent,this)
+        presenter.updateForecastDetailDay()
     }
 
     fun init(){
@@ -41,7 +43,7 @@ class WeatherForecastDetailsActivity : AppCompatActivity() {
         weatherDetailTemperatureMinTextView = findViewById(R.id.weather_forecast_day_detail_temperature_min_textView)
     }
 
-    fun setForecastDetailDayData(weatherForecastDay : WeatherForecastDay?){
+    override fun setForecastDetailDayData(weatherForecastDay: WeatherForecastDay?) {
         weatherDetailDayTextView.text = weatherForecastDay?.day
         weatherDetailCityTextView.text = weatherForecastDay?.city?.name
         weatherDetailTemperatureTextView.text = Utils.convertKelvinToCelsius(weatherForecastDay?.temp?.day)?.toString()
@@ -52,4 +54,6 @@ class WeatherForecastDetailsActivity : AppCompatActivity() {
         weatherDetailTemperatureMaxTextView.text = Utils.convertKelvinToCelsius(weatherForecastDay?.temp?.max)?.toString() + getString(R.string.weather_activity_unit_degree)
         weatherDetailTemperatureMinTextView.text = Utils.convertKelvinToCelsius(weatherForecastDay?.temp?.min)?.toString() + getString(R.string.weather_activity_unit_degree)
     }
+
+
 }

@@ -3,8 +3,8 @@ package com.example.a727222.weatherapp
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.example.a727222.weatherapp.interfaces.IApiResponse
-import com.example.a727222.weatherapp.manager.DataManager
 import com.example.a727222.weatherapp.models.*
+import com.example.a727222.weatherapp.network.MockClient
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -12,6 +12,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class MockClientTest {
+
     @Test
     @Throws(Exception::class)
     fun getCurrentWeatherTest() {
@@ -41,10 +42,12 @@ class MockClientTest {
 
         val weatherCurrent = WeatherCurrent(base = base,main = main,clouds = clouds,cod = cod,coord = coord,dt = dt,id = id,name = name,rain = null,snow = null,sys = sys,visibility = visibility,weather = weatherList,wind = wind)
 
+
+
         val appContext = InstrumentationRegistry.getTargetContext()
+
         var mockClient: MockClient = MockClient(context = appContext)
-        var manager = DataManager(appContext, mockClient)
-        manager.getCurrentWeather(object : IApiResponse<WeatherCurrent>{
+        mockClient.getCurrentWeather(object : IApiResponse<WeatherCurrent>{
             override fun onSuccess(obj: WeatherCurrent?) {
                 assertEquals(weatherCurrent, obj)
             }
@@ -53,5 +56,6 @@ class MockClientTest {
             }
 
         })
+
     }
 }

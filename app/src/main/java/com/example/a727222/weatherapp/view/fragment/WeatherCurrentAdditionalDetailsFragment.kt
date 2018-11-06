@@ -1,4 +1,4 @@
-package com.example.a727222.weatherapp.view
+package com.example.a727222.weatherapp.view.fragment
 
 
 import android.os.Bundle
@@ -8,16 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.a727222.weatherapp.R
-import com.example.a727222.weatherapp.daggerTestDeleteAfter.DaggerMyComponent
-import com.example.a727222.weatherapp.daggerTestDeleteAfter.MyModule
-import com.example.a727222.weatherapp.interfaces.IApiResponse
 import com.example.a727222.weatherapp.interfaces.Networking
-import com.example.a727222.weatherapp.manager.DataManager
 import com.example.a727222.weatherapp.models.WeatherCurrent
+import com.example.a727222.weatherapp.presenter.WeatherCurrentAdditionalDetailsFragmentPresenter
 import com.example.a727222.weatherapp.utils.Utils
+import com.example.a727222.weatherapp.view.activity.WeatherActivity
 import javax.inject.Inject
 
-class WeatherCurrentAdditionalDetailsFragment : Fragment() {
+class WeatherCurrentAdditionalDetailsFragment : Fragment(), WeatherCurrentAdditionalDetailsFragmentPresenter.View {
 
     private lateinit var textViewWeatherSunrise : TextView
     private lateinit var textViewWeatherSunset : TextView
@@ -25,10 +23,9 @@ class WeatherCurrentAdditionalDetailsFragment : Fragment() {
     private lateinit var textViewWeatherRain : TextView
     private lateinit var textViewWeatherHumidity : TextView
     private lateinit var textViewWeatherPressure : TextView
+    private lateinit var presenter : WeatherCurrentAdditionalDetailsFragmentPresenter
 
     var citySearch : String? = null
-
-    lateinit var manager : DataManager
 
     @Inject
     lateinit var networking : Networking
@@ -36,17 +33,15 @@ class WeatherCurrentAdditionalDetailsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        //(activity?.application as MyApplication).myComponent?.plus(this)
-        DaggerMyComponent.builder().myModule(MyModule(requireContext())).build().plus(this)
-
         val view = inflater?.inflate(R.layout.fragment_weather_current_additional_details, container, false)
         init(view)
         var b : Bundle? = arguments
         citySearch = b?.getString(WeatherActivity.WEATHER_ACTIVITY_ARGUMENTS)
+        presenter = WeatherCurrentAdditionalDetailsFragmentPresenter(requireContext(),citySearch,this)
         if(citySearch != null){
-            loadDataSearch(citySearch)
+            presenter.updateWeatherCurrentAdditionalDetailsDataSearch()
         }else {
-            loadData()
+            presenter.updateWeatherCurrentAdditionalDetailsData()
         }
         return view
     }
@@ -67,8 +62,7 @@ class WeatherCurrentAdditionalDetailsFragment : Fragment() {
         textViewWeatherPressure = view.findViewById(R.id.weather_current_additional_details_pressure_textView)
     }
 
-    fun setWeatherCurrentAdditionalDetailsData(weatherCurrent: WeatherCurrent?){
-
+    override fun setWeatherCurrentAdditionalDetailsData(weatherCurrent: WeatherCurrent?) {
         textViewWeatherSunrise.setText(getString(R.string.weather_activity_label_sunrise) + Utils.convertTimeStampInSuntimes(weatherCurrent?.sys?.sunrise?.toLong()))
         textViewWeatherSunset.setText(getString(R.string.weather_activity_label_sunset) + Utils.convertTimeStampInSuntimes(weatherCurrent?.sys?.sunset?.toLong()))
         textViewWeatherClouds.setText(getString(R.string.weather_activity_label_clouds) + weatherCurrent?.clouds?.all.toString() + getString(R.string.weather_activity_unit_percent))
@@ -79,36 +73,5 @@ class WeatherCurrentAdditionalDetailsFragment : Fragment() {
         }
         textViewWeatherHumidity.setText(getString(R.string.weather_activity_label_humidity) + weatherCurrent?.main?.humidity.toString() + getString(R.string.weather_activity_unit_percent))
         textViewWeatherPressure.setText(getString(R.string.weather_activity_label_pressure) + weatherCurrent?.main?.pressure.toString() + getString(R.string.weather_activity_unit_pressure))
-    }
-
-    fun loadData(){
-        networking.getCurrentWeather(object : IApiResponse<WeatherCurrent>
-        {
-            override fun onSuccess(obj: WeatherCurrent?) {
-                setWeatherCurrentAdditionalDetailsData(obj)
-            }
-
-            override fun onError(t: Throwable) {
-                println(t)
-            }
-        }
-        )
-    }
-
-    fun loadDataSearch(searchCity : String?){
-        networking.getCurrentWeatherSearch(object : IApiResponse<WeatherCurrent>{
-            override fun onSuccess(obj: WeatherCurrent?) {
-                if(obj != null) {
-                    setWeatherCurrentAdditionalDetailsData(obj)
-                }else{
-                    loadData()
-                }
-            }
-
-            override fun onError(t: Throwable) {
-
-            }
-
-        },searchCity)
     }
 }

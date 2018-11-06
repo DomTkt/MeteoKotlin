@@ -1,4 +1,4 @@
-package com.example.a727222.weatherapp.view
+package com.example.a727222.weatherapp.view.activity
 
 import android.content.Intent
 import android.content.res.Configuration
@@ -8,6 +8,9 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ScrollView
 import com.example.a727222.weatherapp.R
+import com.example.a727222.weatherapp.view.fragment.WeatherCurrentAdditionalDetailsFragment
+import com.example.a727222.weatherapp.view.fragment.WeatherCurrentPrincipalDetailsFragment
+import com.example.a727222.weatherapp.view.fragment.WeatherForecastListFragment
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.places.Place
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
@@ -31,7 +34,6 @@ class WeatherActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
-
         scrollView = findViewById(R.id.weather_activity_root_layout)
         constraintlayout = findViewById(R.id.constraintLayout);
         hideActionBar();

@@ -1,4 +1,4 @@
-package com.example.a727222.weatherapp.services
+package com.example.a727222.weatherapp.interfaces
 
 import com.example.a727222.weatherapp.models.WeatherCurrent
 import com.example.a727222.weatherapp.models.WeatherForecast

@@ -1,21 +1,17 @@
-package com.example.a727222.weatherapp
+package com.example.a727222.weatherapp.network
 
 import com.example.a727222.weatherapp.interfaces.IApiResponse
+import com.example.a727222.weatherapp.interfaces.IWeatherItemAPIServices
 import com.example.a727222.weatherapp.interfaces.Networking
 import com.example.a727222.weatherapp.models.WeatherCurrent
 import com.example.a727222.weatherapp.models.WeatherForecast
-import com.example.a727222.weatherapp.services.IWeatherItemAPIServices
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import javax.inject.Inject
 
 class RestClient : Networking {
-
-    @Inject
-    constructor()
 
     override fun getCurrentWeather(callback: IApiResponse<WeatherCurrent>) {
         val currentWeather = getClient()?.weatherCurrent("Lyon", "d5ec8c8ab7f0c4dae27e70d1a9ab10cf")
