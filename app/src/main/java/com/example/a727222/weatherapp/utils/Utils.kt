@@ -1,6 +1,5 @@
 package com.example.a727222.weatherapp.utils
 
-import android.net.Uri
 import com.example.a727222.weatherapp.R
 import com.example.a727222.weatherapp.constant.WeatherConstants
 import java.text.SimpleDateFormat
@@ -54,10 +53,4 @@ object Utils {
         }
         return id
     }
-
-    fun getURLForResource(resourceId: Int): String {
-        return Uri.parse("android.resource://" + R::class.java.getPackage().name + "/" + resourceId).toString()
-    }
-
-
 }

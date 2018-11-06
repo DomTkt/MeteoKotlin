@@ -7,15 +7,13 @@ import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ScrollView
-import com.example.a727222.weatherapp.MockClient
 import com.example.a727222.weatherapp.R
-import com.example.a727222.weatherapp.interfaces.IApiResponse
-import com.example.a727222.weatherapp.manager.DataManager
-import com.example.a727222.weatherapp.models.WeatherCurrent
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.places.Place
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
+
+
 
 
 class WeatherActivity : AppCompatActivity(){
@@ -23,8 +21,6 @@ class WeatherActivity : AppCompatActivity(){
     private lateinit var scrollView : ScrollView
     private lateinit var constraintlayout : ConstraintLayout
     private var cityCurrent : String? =  null
-
-    lateinit var manager : DataManager
 
     companion object {
         var WEATHER_ACTIVITY_ARGUMENTS : String = "WEATHER_ACTIVITY_ARGUMENTS"
@@ -35,20 +31,6 @@ class WeatherActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
-
-        var mockClient : MockClient = MockClient(this)
-        manager = DataManager(this,mockClient)
-
-        manager.getCurrentWeather(object : IApiResponse<WeatherCurrent>{
-            override fun onSuccess(obj: WeatherCurrent?) {
-               println(obj)
-            }
-
-            override fun onError(t: Throwable) {
-
-            }
-
-        })
 
         scrollView = findViewById(R.id.weather_activity_root_layout)
         constraintlayout = findViewById(R.id.constraintLayout);
@@ -132,17 +114,4 @@ class WeatherActivity : AppCompatActivity(){
             displayFragmentWeatherCurrentAdditionalDetailsFragment(args)
         }
     }
-
-
-    //    fun loadBackground(){
-//        Glide.with(applicationContext).load(Utils.getURLForResource(R.drawable.image_background_weather))
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .centerCrop()
-//                .crossFade()
-//                .into(imageView)
-//
-//
-//
-//    }
-
 }

@@ -12,8 +12,9 @@ interface IWeatherItemAPIServices {
         fun weatherCurrent(@Query("q") city: String,
                                @Query("APPID") appId: String): Call<WeatherCurrent>
 
-        @GET("/data/2.5/forecast/daily?q=Lyon,FR&appid=d5ec8c8ab7f0c4dae27e70d1a9ab10cf")
-        fun weatherForecast(): Call<WeatherForecast>
+        @GET("/data/2.5/forecast/daily")
+        fun weatherForecast(@Query("q") city: String,
+        @Query("APPID") appId: String): Call<WeatherForecast>
 
         @GET("/data/2.5/weather?APPID=d5ec8c8ab7f0c4dae27e70d1a9ab10cf")
         fun weatherCurrentSearch(@Query("q") q : String?): Call<WeatherCurrent>

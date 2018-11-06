@@ -10,8 +10,12 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.inject.Inject
 
-class RestClientK : Networking {
+class RestClient : Networking {
+
+    @Inject
+    constructor()
 
     override fun getCurrentWeather(callback: IApiResponse<WeatherCurrent>) {
         val currentWeather = getClient()?.weatherCurrent("Lyon", "d5ec8c8ab7f0c4dae27e70d1a9ab10cf")
@@ -27,7 +31,7 @@ class RestClientK : Networking {
     }
 
     override fun getWeatherForecastForOneWeek(callback: IApiResponse<WeatherForecast>) {
-        val forecastWeather = getClient()?.weatherForecast()
+        val forecastWeather = getClient()?.weatherForecast("Lyon", "d5ec8c8ab7f0c4dae27e70d1a9ab10cf")
         forecastWeather?.enqueue(object : Callback<WeatherForecast>{
             override fun onFailure(call: Call<WeatherForecast>, t: Throwable) {
 

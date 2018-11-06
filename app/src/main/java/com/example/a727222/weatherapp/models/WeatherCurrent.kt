@@ -4,18 +4,18 @@ import java.io.Serializable
 
 
 data class WeatherCurrent(
-    val coord: Coord,
-    val weather: List<Weather>,
-    val base: String,
-    val main: Main,
-    val visibility: Int,
-    val wind: Wind,
-    val clouds: Clouds,
-    val dt: Int,
-    val sys: Sys,
-    val id: Int,
-    val name: String,
-    val cod: Int,
-    val rain: Rain,
-    val snow: Snow
+        var coord: Coord,
+        var weather: List<Weather>,
+        var base: String,
+        var main: Main,
+        var visibility: Int,
+        var wind: Wind,
+        var clouds: Clouds,
+        var dt: Int,
+        var sys: Sys,
+        var id: Int,
+        var name: String,
+        var cod: Int,
+        var rain: Rain?,
+        var snow: Snow?
 ) : Serializable

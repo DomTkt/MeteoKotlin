@@ -8,11 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.a727222.weatherapp.R
-import com.example.a727222.weatherapp.RestClientK
+import com.example.a727222.weatherapp.daggerTestDeleteAfter.DaggerMyComponent
+import com.example.a727222.weatherapp.daggerTestDeleteAfter.MyModule
 import com.example.a727222.weatherapp.interfaces.IApiResponse
+import com.example.a727222.weatherapp.interfaces.Networking
 import com.example.a727222.weatherapp.manager.DataManager
 import com.example.a727222.weatherapp.models.WeatherCurrent
 import com.example.a727222.weatherapp.utils.Utils
+import javax.inject.Inject
 
 class WeatherCurrentAdditionalDetailsFragment : Fragment() {
 
@@ -27,14 +30,14 @@ class WeatherCurrentAdditionalDetailsFragment : Fragment() {
 
     lateinit var manager : DataManager
 
+    @Inject
+    lateinit var networking : Networking
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        var restClientK : RestClientK = RestClientK()
-        manager = DataManager(this.requireContext(),networker = restClientK)
-
-//        var mockClient : MockClient = MockClient(this.requireContext())
-//        manager = DataManager(this.requireContext(),mockClient)
+        //(activity?.application as MyApplication).myComponent?.plus(this)
+        DaggerMyComponent.builder().myModule(MyModule(requireContext())).build().plus(this)
 
         val view = inflater?.inflate(R.layout.fragment_weather_current_additional_details, container, false)
         init(view)
@@ -72,14 +75,14 @@ class WeatherCurrentAdditionalDetailsFragment : Fragment() {
         if(weatherCurrent?.rain == null){
             textViewWeatherRain.setText(getString(R.string.weather_activity_label_rain) + getString(R.string.weather_activity_rain_empty_state))
         }else {
-            textViewWeatherRain.setText(getString(R.string.weather_activity_label_rain) + weatherCurrent.rain.volume.toString() + getString(R.string.weather_activity_unit_volume))
+            textViewWeatherRain.setText(getString(R.string.weather_activity_label_rain) + weatherCurrent.rain?.volume.toString() + getString(R.string.weather_activity_unit_volume))
         }
         textViewWeatherHumidity.setText(getString(R.string.weather_activity_label_humidity) + weatherCurrent?.main?.humidity.toString() + getString(R.string.weather_activity_unit_percent))
         textViewWeatherPressure.setText(getString(R.string.weather_activity_label_pressure) + weatherCurrent?.main?.pressure.toString() + getString(R.string.weather_activity_unit_pressure))
     }
 
     fun loadData(){
-        manager.getCurrentWeather(object : IApiResponse<WeatherCurrent>
+        networking.getCurrentWeather(object : IApiResponse<WeatherCurrent>
         {
             override fun onSuccess(obj: WeatherCurrent?) {
                 setWeatherCurrentAdditionalDetailsData(obj)
@@ -93,7 +96,7 @@ class WeatherCurrentAdditionalDetailsFragment : Fragment() {
     }
 
     fun loadDataSearch(searchCity : String?){
-        manager.getCurrentWeatherSearch(object : IApiResponse<WeatherCurrent>{
+        networking.getCurrentWeatherSearch(object : IApiResponse<WeatherCurrent>{
             override fun onSuccess(obj: WeatherCurrent?) {
                 if(obj != null) {
                     setWeatherCurrentAdditionalDetailsData(obj)

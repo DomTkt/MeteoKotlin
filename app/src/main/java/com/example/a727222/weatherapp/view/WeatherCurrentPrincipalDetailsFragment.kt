@@ -9,11 +9,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.a727222.weatherapp.R
-import com.example.a727222.weatherapp.RestClientK
+import com.example.a727222.weatherapp.daggerTestDeleteAfter.DaggerMyComponent
+import com.example.a727222.weatherapp.daggerTestDeleteAfter.MyModule
 import com.example.a727222.weatherapp.interfaces.IApiResponse
-import com.example.a727222.weatherapp.manager.DataManager
+import com.example.a727222.weatherapp.interfaces.Networking
 import com.example.a727222.weatherapp.models.WeatherCurrent
 import com.example.a727222.weatherapp.utils.Utils
+import javax.inject.Inject
 
 class WeatherCurrentPrincipalDetailsFragment : Fragment(){
 
@@ -23,16 +25,14 @@ class WeatherCurrentPrincipalDetailsFragment : Fragment(){
     private lateinit var imageViewWeatherIcon : ImageView
 
     var citySearch : String? = null
-
-    lateinit var manager : DataManager
-
+    @Inject
+    lateinit var networking : Networking
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        var restClientK : RestClientK = RestClientK()
-        manager = DataManager(this.requireContext(),networker = restClientK)
+        DaggerMyComponent.builder().myModule(MyModule(requireContext())).build().plus(this)
 
         val view = inflater?.inflate(R.layout.fragment_weather_current_principal_details, container, false)
         init(view)
@@ -73,7 +73,7 @@ class WeatherCurrentPrincipalDetailsFragment : Fragment(){
     }
 
     fun loadData(){
-        manager.getCurrentWeather(object : IApiResponse<WeatherCurrent>
+        networking.getCurrentWeather(object : IApiResponse<WeatherCurrent>
         {
             override fun onSuccess(obj: WeatherCurrent?) {
                 setWeatherCurrentPrincipalDetailsData(obj)
@@ -87,7 +87,7 @@ class WeatherCurrentPrincipalDetailsFragment : Fragment(){
     }
 
     fun loadDataSearch(searchCity : String?){
-        manager.getCurrentWeatherSearch(object : IApiResponse<WeatherCurrent>{
+        networking.getCurrentWeatherSearch(object : IApiResponse<WeatherCurrent>{
             override fun onSuccess(obj: WeatherCurrent?) {
                 if(obj != null) {
                     setWeatherCurrentPrincipalDetailsData(obj)
@@ -102,6 +102,4 @@ class WeatherCurrentPrincipalDetailsFragment : Fragment(){
 
         },searchCity)
     }
-
-
 }

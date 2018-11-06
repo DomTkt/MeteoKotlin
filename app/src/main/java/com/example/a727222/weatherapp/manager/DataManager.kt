@@ -30,7 +30,7 @@ class DataManager {
     }
 
     fun getWeatherForecastForOneWeekSearch(callback : IApiResponse<WeatherForecast>, searchCity : String?){
-        val listWeatherForecast = networker?.getWeatherForecastForOneWeekSearch(callback,searchCity)
+        networker?.getWeatherForecastForOneWeekSearch(callback,searchCity)
     }
 
 //

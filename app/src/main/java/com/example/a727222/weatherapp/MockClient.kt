@@ -36,7 +36,7 @@ class MockClient : Networking{
     }
 
     override fun getWeatherForecastForOneWeek(callback: IApiResponse<WeatherForecast>) {
-        val forecastWeather = getClient(context)?.weatherForecast()
+        val forecastWeather = getClient(context)?.weatherForecast("Lyon", "d5ec8c8ab7f0c4dae27e70d1a9ab10cf")
         forecastWeather?.enqueue(object : Callback<WeatherForecast>{
             override fun onFailure(call: Call<WeatherForecast>, t: Throwable) {
 

@@ -9,7 +9,7 @@ import java.io.InputStreamReader
 import java.net.URI
 import java.util.*
 
-class FakeInterceptorK(var context : Context) : Interceptor{
+class FakeInterceptorK: Interceptor{
     private val TAG = FakeInterceptor::class.java.simpleName
     private val FILE_EXTENSION = ".json"
     private lateinit var mContext: Context
@@ -22,9 +22,10 @@ class FakeInterceptorK(var context : Context) : Interceptor{
      * @return FakeInterceptor
      */
 
-    init{
-        this.context = context
+    constructor(context : Context){
+        mContext = context
     }
+
 
     fun setContentType(contentType: String): FakeInterceptorK {
         mContentType = contentType
@@ -58,10 +59,11 @@ class FakeInterceptorK(var context : Context) : Interceptor{
                 val `is` = mContext.assets.open(fileName)
                 val r = BufferedReader(InputStreamReader(`is`))
                 val responseStringBuilder = StringBuilder()
-//                var line: String =
-//                        while (r.readLine() != null) {
-//                            responseStringBuilder.append(line).append('\n')
-//                        }
+
+                var line = String
+                while ((r.readLine()) != null){
+                    responseStringBuilder.append(line).append('\n')
+                }
                 Log.d(TAG, "Response: " + responseStringBuilder.toString())
                 response = Response.Builder()
                         .code(200)

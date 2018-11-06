@@ -10,23 +10,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.a727222.weatherapp.R
-import com.example.a727222.weatherapp.RestClientK
 import com.example.a727222.weatherapp.adapter.WeatherForecastAdapter
+import com.example.a727222.weatherapp.daggerTestDeleteAfter.DaggerMyComponent
+import com.example.a727222.weatherapp.daggerTestDeleteAfter.MyModule
 import com.example.a727222.weatherapp.interfaces.IApiResponse
+import com.example.a727222.weatherapp.interfaces.Networking
 import com.example.a727222.weatherapp.interfaces.OnItemWeatherForecastClickListener
-import com.example.a727222.weatherapp.manager.DataManager
 import com.example.a727222.weatherapp.models.ForecastItem
 import com.example.a727222.weatherapp.models.WeatherForecast
 import com.example.a727222.weatherapp.models.WeatherForecastDay
 import com.example.a727222.weatherapp.utils.Utils
 import java.text.SimpleDateFormat
 import java.util.*
-
+import javax.inject.Inject
 
 
 class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListener {
-
-    lateinit var manager : DataManager
 
     companion object {
 
@@ -38,7 +37,7 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
     }
 
     override fun onItemWeatherClick(position: Int) {
-
+        //TODO provide intent ... depuis composant dagger
         val intent = Intent(this.context,WeatherForecastDetailsActivity::class.java)
         var weatherForecastDay : WeatherForecastDay? = weatherForecast?.list?.get(position)
         weatherForecastDay?.city = weatherForecast?.city
@@ -52,12 +51,13 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
     private var weatherForecast : WeatherForecast? = null
     private lateinit var recyclerViewWeatherForecast : RecyclerView
     var citySearch : String? = null
+    @Inject
+    lateinit var networking : Networking
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        var restClientK : RestClientK = RestClientK()
-        manager = DataManager(this.requireContext(),networker = restClientK)
+        DaggerMyComponent.builder().myModule(MyModule(requireContext())).build().plus(this)
 
         val view = inflater?.inflate(R.layout.fragment_weather_forecast_list, container, false)
         recyclerViewWeatherForecast = view.findViewById(R.id.weather_forecast_list_fragment_recyclerView)
@@ -88,7 +88,7 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
     }
 
     fun loadData(){
-        manager.getWeatherForecastForOneWeek(object : IApiResponse<WeatherForecast>
+        networking.getWeatherForecastForOneWeek(object : IApiResponse<WeatherForecast>
         {
             override fun onSuccess(obj: WeatherForecast?) {
                 weatherForecast = obj
@@ -107,7 +107,7 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
     }
 
     fun loadDataSearch(city : String?){
-        manager.getWeatherForecastForOneWeekSearch(object : IApiResponse<WeatherForecast>
+        networking.getWeatherForecastForOneWeekSearch(object : IApiResponse<WeatherForecast>
         {
             override fun onSuccess(obj: WeatherForecast?) {
 
@@ -129,5 +129,4 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
         }
         ,searchCity = city)
     }
-
 }
