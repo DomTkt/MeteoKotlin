@@ -9,9 +9,8 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class Module(context: Context) {
+class ModuleBase(context: Context) {
     private var context: Context
-    private lateinit var networking: Networking
 
     init{
         this.context = context
@@ -20,12 +19,11 @@ class Module(context: Context) {
     @Provides
     @Singleton
     fun provideNetworker(): Networking {
-
         when(context.packageName)
         {
-            "com.example.a727222.weatherapp.mock" -> networking = MockClient(context)
-            "com.example.a727222.weatherapp.prod" -> networking = RestClient()
+            "com.example.a727222.weatherapp.mock" -> return MockClient(context)
+            "com.example.a727222.weatherapp.prod" -> return RestClient()
+            else -> return MockClient(context)
         }
-        return networking
     }
 }

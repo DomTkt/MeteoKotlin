@@ -26,5 +26,4 @@ class UtilsTest {
         var expected : Int = R.drawable.clear_sky
         assertEquals("get icon type",actual, expected)
     }
-
 }

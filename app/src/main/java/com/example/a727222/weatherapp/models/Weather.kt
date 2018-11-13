@@ -3,8 +3,8 @@ package com.example.a727222.weatherapp.models
 import java.io.Serializable
 
 data class Weather(
-    val id: Int,
-    val main: String,
-    val description: String,
-    val icon: String
+    var id: Int,
+    var main: String,
+    var description: String,
+    var icon: String
 ) : Serializable

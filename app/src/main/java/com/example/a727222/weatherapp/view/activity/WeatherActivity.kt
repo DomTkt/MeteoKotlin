@@ -16,9 +16,6 @@ import com.google.android.gms.location.places.Place
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
 
-
-
-
 class WeatherActivity : AppCompatActivity(){
 
     private lateinit var scrollView : ScrollView

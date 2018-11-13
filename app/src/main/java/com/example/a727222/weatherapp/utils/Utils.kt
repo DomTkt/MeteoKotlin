@@ -14,7 +14,7 @@ object Utils {
 
     fun convertTimeStampInSuntimes(milliseconds : Long?) : String{
         var simpleDateFormat : SimpleDateFormat = SimpleDateFormat("kk:mm")
-        var date : Date = Date(milliseconds!!.times(1000))
+        var date : Date? = milliseconds?.times(1000)?.let { Date(it) }
         var stringSunTime : String =  simpleDateFormat.format(date)
         return stringSunTime
     }

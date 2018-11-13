@@ -4,18 +4,18 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class WeatherForecastDay(
-        val dt: Int,
-        val temp: Temp,
-        val pressure: Double,
-        val humidity: Int,
-        val weather: List<Weather>,
-        val speed: Double,
-        val deg: Int,
+        var dt: Int,
+        var temp: Temp,
+        var pressure: Double,
+        var humidity: Int,
+        var weather: List<Weather>,
+        var speed: Double,
+        var deg: Int,
         @SerializedName("clouds")
-        val cloudss : Int,
-        val rain: Double,
-        val snow: Double,
+        var cloudss : Int,
+        var rain: Double,
+        var snow: Double,
         var city: City?,
-        var day : String
+        var day : String?
 
 ) : Serializable

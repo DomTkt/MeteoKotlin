@@ -1,31 +1,32 @@
 package com.example.a727222.weatherapp.presenter
 
 import android.content.Context
-import com.example.a727222.weatherapp.component.DaggerComponent
+import com.example.a727222.weatherapp.component.DaggerComponentBase
 import com.example.a727222.weatherapp.interfaces.IApiResponse
 import com.example.a727222.weatherapp.interfaces.Networking
 import com.example.a727222.weatherapp.models.WeatherCurrent
-import com.example.a727222.weatherapp.module.Module
+import com.example.a727222.weatherapp.module.ModuleBase
 import javax.inject.Inject
 
 class WeatherCurrentAdditionalDetailsFragmentPresenter {
 
-    var view : View
+    var listener : WeatherCurrentAdditionalDetailsFragmentPresenterListener?
     @Inject
     lateinit var networking : Networking
     private var searchCity : String?
 
-    constructor(context : Context, searchCity : String?,view : View){
-        DaggerComponent.builder().module(Module(context)).build().plus(this)
+    constructor(context : Context, searchCity : String?,listener : WeatherCurrentAdditionalDetailsFragmentPresenterListener?){
+
         this.searchCity = searchCity
-        this.view = view
+        this.listener = listener
+        DaggerComponentBase.builder().moduleBase(ModuleBase(context)).build().plus(this)
     }
 
     fun updateWeatherCurrentAdditionalDetailsData(){
         networking.getCurrentWeather(object : IApiResponse<WeatherCurrent>
         {
             override fun onSuccess(obj: WeatherCurrent?) {
-                view.setWeatherCurrentAdditionalDetailsData(obj)
+                listener?.setWeatherCurrentAdditionalDetailsData(obj)
             }
 
             override fun onError(t: Throwable) {
@@ -41,7 +42,7 @@ class WeatherCurrentAdditionalDetailsFragmentPresenter {
             override fun onSuccess(obj: WeatherCurrent?) {
                 //If the name of the city is unknow by the weather API...
                 if(obj != null) {
-                    view.setWeatherCurrentAdditionalDetailsData(obj)
+                    listener?.setWeatherCurrentAdditionalDetailsData(obj)
                 }else{
                     updateWeatherCurrentAdditionalDetailsData()
                 }
@@ -56,7 +57,7 @@ class WeatherCurrentAdditionalDetailsFragmentPresenter {
     }
 
 
-    interface View {
+    interface WeatherCurrentAdditionalDetailsFragmentPresenterListener {
 
         fun setWeatherCurrentAdditionalDetailsData(weatherCurrent: WeatherCurrent?)
 

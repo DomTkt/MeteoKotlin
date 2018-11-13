@@ -9,18 +9,23 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.a727222.weatherapp.R
+import com.example.a727222.weatherapp.component.DaggerComponentWeatherCurrentPrincipalDetails
 import com.example.a727222.weatherapp.models.WeatherCurrent
+import com.example.a727222.weatherapp.module.ModuleWeatherCurrentPrincipalDetails
 import com.example.a727222.weatherapp.presenter.WeatherCurrentPrincipalDetailsFragmentPresenter
 import com.example.a727222.weatherapp.utils.Utils
 import com.example.a727222.weatherapp.view.activity.WeatherActivity
+import javax.inject.Inject
 
-class WeatherCurrentPrincipalDetailsFragment : Fragment(), WeatherCurrentPrincipalDetailsFragmentPresenter.View{
+class WeatherCurrentPrincipalDetailsFragment : Fragment(), WeatherCurrentPrincipalDetailsFragmentPresenter.WeatherCurrentPrincipalDetailsFragmentPresenterListener{
 
     private lateinit var textViewWeatherCity : TextView
     private lateinit var textViewWeatherMain : TextView
     private lateinit var textViewWeatherTemperature : TextView
     private lateinit var imageViewWeatherIcon : ImageView
-    private lateinit var presenter  : WeatherCurrentPrincipalDetailsFragmentPresenter
+
+    @Inject
+    lateinit var presenter  : WeatherCurrentPrincipalDetailsFragmentPresenter
 
 
     var citySearch : String? = null
@@ -33,7 +38,7 @@ class WeatherCurrentPrincipalDetailsFragment : Fragment(), WeatherCurrentPrincip
         init(view)
         var b : Bundle? = arguments
         citySearch = b?.getString(WeatherActivity.WEATHER_ACTIVITY_ARGUMENTS)
-        presenter = WeatherCurrentPrincipalDetailsFragmentPresenter(requireContext(),citySearch,this)
+        DaggerComponentWeatherCurrentPrincipalDetails.builder().moduleWeatherCurrentPrincipalDetails(ModuleWeatherCurrentPrincipalDetails(requireContext(),citySearch,this)).build().plus(this)
         if(citySearch != null){
             presenter.updateWeatherCurrentPrincipalDetailsDataSearch()
         }else {
@@ -41,11 +46,6 @@ class WeatherCurrentPrincipalDetailsFragment : Fragment(), WeatherCurrentPrincip
         }
         return view
     }
-
-    init {
-
-    }
-
 
     companion object {
         fun newInstance(): WeatherCurrentPrincipalDetailsFragment {

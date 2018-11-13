@@ -11,11 +11,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.a727222.weatherapp.R
 import com.example.a727222.weatherapp.adapter.WeatherForecastAdapter
-import com.example.a727222.weatherapp.interfaces.Networking
+import com.example.a727222.weatherapp.component.DaggerComponentWeatherForecastList
+import com.example.a727222.weatherapp.interfaces.IA
 import com.example.a727222.weatherapp.interfaces.OnItemWeatherForecastClickListener
 import com.example.a727222.weatherapp.models.ForecastItem
 import com.example.a727222.weatherapp.models.WeatherForecast
 import com.example.a727222.weatherapp.models.WeatherForecastDay
+import com.example.a727222.weatherapp.module.ModuleWeatherForecastList
 import com.example.a727222.weatherapp.presenter.WeatherForecastListFragmentPresenter
 import com.example.a727222.weatherapp.utils.Utils
 import com.example.a727222.weatherapp.view.activity.WeatherActivity
@@ -38,7 +40,7 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
 
     override fun onItemWeatherClick(position: Int) {
         val intent = Intent(this.context, WeatherForecastDetailsActivity::class.java)
-        var weatherForecastDay : WeatherForecastDay? = weatherForecast?.list?.get(position)
+        val weatherForecastDay : WeatherForecastDay? = weatherForecast?.list?.get(position)
         weatherForecastDay?.city = weatherForecast?.city
         weatherForecastDay?.day = forecastItemList.get(position).day
         intent.putExtra(WEATHER_FORECAST_DAY_EXTRA,weatherForecastDay)
@@ -50,19 +52,22 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
     private var weatherForecast : WeatherForecast? = null
     private lateinit var recyclerViewWeatherForecast : RecyclerView
     var citySearch : String? = null
-    private lateinit var presenter : WeatherForecastListFragmentPresenter
 
     @Inject
-    lateinit var networking : Networking
+    lateinit var presenter : IA
+
+    //@Inject
+    //lateinit var networking : Networking
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        val view = inflater?.inflate(R.layout.fragment_weather_forecast_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_weather_forecast_list, container, false)
         recyclerViewWeatherForecast = view.findViewById(R.id.weather_forecast_list_fragment_recyclerView)
-        var b : Bundle? = arguments
+        val b : Bundle? = arguments
         citySearch = b?.getString(WeatherActivity.WEATHER_ACTIVITY_ARGUMENTS)
-        presenter = WeatherForecastListFragmentPresenter(requireContext(),citySearch,this)
+        DaggerComponentWeatherForecastList.builder().moduleWeatherForecastList(ModuleWeatherForecastList(requireContext(),citySearch,this)).build().plus(this)
+        //presenter = WeatherForecastListFragmentPresenter(requireContext(),citySearch,this)
         if(citySearch != null){
             presenter.updateWeatherForecastListSearch()
         }else {
@@ -78,13 +83,18 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
         recyclerViewWeatherForecast.adapter = WeatherForecastAdapter(forecastItemList,this@WeatherForecastListFragment.requireContext(),this@WeatherForecastListFragment)
 
         val SimpleDateFormatDayOfWeek = SimpleDateFormat("EEEE", Locale.ENGLISH)
-        for((index,forecastItems) in weatherForecast?.list?.withIndex()!!){
-            val calendar : Calendar = Calendar.getInstance()
-            calendar.add(Calendar.DAY_OF_YEAR, index)
-            val forecastDate : Date = calendar.time
-            val forecastItem = ForecastItem(day = SimpleDateFormatDayOfWeek.format(forecastDate), temperature_min = Utils.convertKelvinToCelsius(forecastItems.temp.min), temperature_max = Utils.convertKelvinToCelsius(forecastItems.temp.max),icon = forecastItems.weather.get(0).icon)
-            forecastItemList.add(forecastItem)
 
+        weatherForecast?.list?.let {
+            for((index,forecastItems) in it.withIndex()){
+                val calendar : Calendar = Calendar.getInstance()
+                calendar.add(Calendar.DAY_OF_YEAR, index)
+                val forecastDate : Date = calendar.time
+                val forecastItem = ForecastItem(day = SimpleDateFormatDayOfWeek.format(forecastDate), temperature_min = Utils.convertKelvinToCelsius(forecastItems.temp.min), temperature_max = Utils.convertKelvinToCelsius(forecastItems.temp.max),icon = forecastItems.weather.get(0).icon)
+                forecastItemList.add(forecastItem)
+
+            }
         }
+
+
     }
 }

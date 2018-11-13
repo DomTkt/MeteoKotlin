@@ -6,17 +6,21 @@ import com.example.a727222.weatherapp.interfaces.IApiResponse
 import com.example.a727222.weatherapp.models.*
 import com.example.a727222.weatherapp.network.MockClient
 import junit.framework.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
+
+
+
 class MockClientTest {
 
-    @Test
-    @Throws(Exception::class)
-    fun getCurrentWeatherTest() {
-        // Context of the app under test.
+    lateinit var weatherCurrent : WeatherCurrent
+
+    @Before
+    fun init(){
         val base = "stations"
         val visibility = 10000
         val dt = 1540818000
@@ -40,9 +44,16 @@ class MockClientTest {
         val weather2 = Weather(id = 615,main = "Snow", description = "light rain and snow", icon = "13d")
         val weatherList = listOf(weather0,weather1,weather2)
 
-        val weatherCurrent = WeatherCurrent(base = base,main = main,clouds = clouds,cod = cod,coord = coord,dt = dt,id = id,name = name,rain = null,snow = null,sys = sys,visibility = visibility,weather = weatherList,wind = wind)
+        weatherCurrent = WeatherCurrent(base = base,main = main,clouds = clouds,cod = cod,coord = coord,dt = dt,id = id,name = name,rain = null,snow = null,sys = sys,visibility = visibility,weather = weatherList,wind = wind)
 
 
+
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun getCurrentWeatherTest() {
+        // Context of the app under test.
 
         val appContext = InstrumentationRegistry.getTargetContext()
 
