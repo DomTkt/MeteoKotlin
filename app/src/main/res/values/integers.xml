@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="nb_row_list_weather_forecast_portrait">7</integer>
+    <integer name="nb_row_list_weather_forecast_landscape">3</integer>
+</resources>

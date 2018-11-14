@@ -13,10 +13,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 class RestClient : Networking {
 
-    init {
-        println("TESTTEST")
-    }
-
     override fun getCurrentWeather(callback: IApiResponse<WeatherCurrent>) {
         val currentWeather = getClient()?.weatherCurrent("Lyon", "d5ec8c8ab7f0c4dae27e70d1a9ab10cf")
         currentWeather?.enqueue(object : Callback<WeatherCurrent>{

@@ -13,7 +13,8 @@ import org.junit.Before
 import org.junit.Test
 import javax.inject.Inject
 
-class WeatherForecastListFragmentPresenterAndroidTest : IA {
+class WeatherForecastListFragmentPresenterAndroidTest : IA{
+
     override fun truncListWeather(weatherForecast: WeatherForecast?, truncLandscape: Int, truncPortrait: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

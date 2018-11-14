@@ -56,9 +56,6 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
     @Inject
     lateinit var presenter : IA
 
-    //@Inject
-    //lateinit var networking : Networking
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 

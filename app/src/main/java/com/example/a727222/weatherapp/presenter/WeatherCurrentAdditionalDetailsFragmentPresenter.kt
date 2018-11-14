@@ -20,6 +20,7 @@ class WeatherCurrentAdditionalDetailsFragmentPresenter {
         this.searchCity = searchCity
         this.listener = listener
         DaggerComponentBase.builder().moduleBase(ModuleBase(context)).build().plus(this)
+        //DaggerComponentWeatherCurrentAdditionalDetails.builder().moduleWeatherCurrentAdditionalDetails(ModuleWeatherCurrentAdditionalDetails(context,null,null)).build().plus(this)
     }
 
     fun updateWeatherCurrentAdditionalDetailsData(){

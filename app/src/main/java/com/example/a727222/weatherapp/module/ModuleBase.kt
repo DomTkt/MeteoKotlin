@@ -9,7 +9,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class ModuleBase(context: Context) {
+open class ModuleBase(context: Context) {
     private var context: Context
 
     init{

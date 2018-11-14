@@ -2,6 +2,7 @@ package com.example.a727222.weatherapp.presenter
 
 import android.content.Context
 import android.content.res.Configuration
+import com.example.a727222.weatherapp.R
 import com.example.a727222.weatherapp.component.DaggerComponentWeatherForecastList
 import com.example.a727222.weatherapp.interfaces.IA
 import com.example.a727222.weatherapp.interfaces.IApiResponse
@@ -10,29 +11,26 @@ import com.example.a727222.weatherapp.models.WeatherForecast
 import com.example.a727222.weatherapp.module.ModuleWeatherForecastList
 import javax.inject.Inject
 
-class WeatherForecastListFragmentPresenter : IA {
+class WeatherForecastListFragmentPresenter(private var context: Context, private var searchCity: String?, var view: View?) : IA {
 
-    var view : View?
     @Inject
     lateinit var networking : Networking
-    private var searchCity : String?
-    private var context : Context
     private var weatherForecastTrunc : WeatherForecast?
+    private val nbRowLandscape : Int
+    private val nbRowPortrait : Int
 
-    constructor(context : Context, searchCity : String?, view :View?){
-        //DaggerComponent.builder().module(ModuleBase(context)).build().plus(this)
-        this.searchCity = searchCity
-        this.view = view
-        this.context = context
+    init {
         weatherForecastTrunc = WeatherForecast()
         DaggerComponentWeatherForecastList.builder().moduleWeatherForecastList(ModuleWeatherForecastList(context,searchCity,view)).build().plus(this)
+        nbRowLandscape = context.resources.getInteger(R.integer.nb_row_list_weather_forecast_landscape)
+        nbRowPortrait = context.resources.getInteger(R.integer.nb_row_list_weather_forecast_portrait)
     }
 
     override fun updateWeatherForecastList(){
         networking.getWeatherForecastForOneWeek(object : IApiResponse<WeatherForecast>
         {
             override fun onSuccess(obj: WeatherForecast?) {
-                truncListWeather(obj,3,7)
+                truncListWeather(obj,nbRowLandscape,nbRowPortrait)
             }
 
             override fun onError(t: Throwable) {
@@ -48,10 +46,12 @@ class WeatherForecastListFragmentPresenter : IA {
             override fun onSuccess(obj: WeatherForecast?) {
                 //If the name of the city is unknown by the weather API...
                 if(obj != null) {
-                    truncListWeather(obj,3,7)
+                    truncListWeather(obj,nbRowLandscape,nbRowPortrait)
                 }else{
                     updateWeatherForecastList()
                 }
+
+
             }
             override fun onError(t: Throwable) {
                 println(t)
@@ -59,11 +59,11 @@ class WeatherForecastListFragmentPresenter : IA {
 
         },searchCity)
     }
-//TODO fichier de values
+
     override fun truncListWeather(weatherForecast : WeatherForecast?,truncLandscape : Int, truncPortrait : Int){
-    //refracto
+
         weatherForecastTrunc = weatherForecast
-        var orientation = context.resources.configuration.orientation
+        val orientation = context.resources.configuration.orientation
         if(orientation == Configuration.ORIENTATION_LANDSCAPE){
             weatherForecastTrunc?.list = weatherForecastTrunc?.list?.take(truncLandscape)
             view?.setForecastItem(weatherForecastTrunc)

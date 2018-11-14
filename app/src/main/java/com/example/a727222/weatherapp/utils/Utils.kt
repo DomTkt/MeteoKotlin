@@ -1,9 +1,14 @@
 package com.example.a727222.weatherapp.utils
 
+import android.content.Context
+import android.location.Geocoder
 import com.example.a727222.weatherapp.R
 import com.example.a727222.weatherapp.constant.WeatherConstants
 import java.text.SimpleDateFormat
 import java.util.*
+
+
+
 
 object Utils {
 
@@ -53,4 +58,20 @@ object Utils {
         }
         return id
     }
+
+    fun getCityNameFromLocation(context : Context, latitude : Double , longitude : Double) : String{
+        val geocoder = Geocoder(context, Locale.getDefault())
+        val addresses = geocoder.getFromLocation(latitude, longitude, 1)
+        var cityName = ""
+        if(addresses != null) {
+            cityName = addresses[0].locality
+        }
+        return cityName
+    }
+
+    fun getLocation(context : Context){
+
+    }
+
+
 }

@@ -22,16 +22,19 @@
 
     <string name="weather_activity_rain_empty_state">0 mm</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- Search bar -->
-    <string name="app_label">Searchhh</string>
+    <string name="app_label">Search</string>
     <string name="search_hint">search_hint</string>
 
     <!-- Details Weather Activity -->
 
     <string name="weather_forecast_details_activity_label_temperature_min"></string>
+
+    <!-- Weather constants -->
+
+    <string name="weather_constants_clear_sky_day">01d</string>
+
+
 
 
 </resources>

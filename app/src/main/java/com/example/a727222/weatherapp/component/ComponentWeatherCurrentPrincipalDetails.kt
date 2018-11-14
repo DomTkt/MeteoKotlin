@@ -8,7 +8,5 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = arrayOf(ModuleWeatherCurrentPrincipalDetails::class))
 interface ComponentWeatherCurrentPrincipalDetails {
-    //fun plus(weatherCurrentPrincipalDetailsFragmentPresenter: WeatherCurrentPrincipalDetailsFragmentPresenter)
     fun plus(weatherCurrentPrincipalDetailsFragment: WeatherCurrentPrincipalDetailsFragment)
-
 }

@@ -39,7 +39,7 @@ class WeatherForecastListFragmentPresenterTest {
     fun truncListWeather() {
 
         var actual : WeatherForecast = weatherForecast
-        actual?.list = actual.list.take(3)
+        actual?.list = actual.list?.take(3)
         var expected : WeatherForecast? = weatherForecastTrunc
         assertEquals("Trunc obj WeatherForecast",actual,expected)
 

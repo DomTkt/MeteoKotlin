@@ -18,9 +18,20 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener
 
 class WeatherActivity : AppCompatActivity(){
 
+//    private val locationListener: LocationListener = object : LocationListener {
+//        override fun onLocationChanged(location: Location) {
+//            println(location)
+//        }
+//        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+//        override fun onProviderEnabled(provider: String) {}
+//        override fun onProviderDisabled(provider: String) {}
+//    }
+
     private lateinit var scrollView : ScrollView
     private lateinit var constraintlayout : ConstraintLayout
     private var cityCurrent : String? =  null
+
+//    private var locationManager : LocationManager? = null
 
     companion object {
         var WEATHER_ACTIVITY_ARGUMENTS : String = "WEATHER_ACTIVITY_ARGUMENTS"
@@ -28,6 +39,12 @@ class WeatherActivity : AppCompatActivity(){
 
     }
 
+
+
+
+
+
+//    @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
@@ -36,7 +53,12 @@ class WeatherActivity : AppCompatActivity(){
         hideActionBar();
         displaySearchBar()
         checkDataExistForChangeOrientation()
+//        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?;
+//        locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+
+
     }
+
 
     fun hideActionBar(){
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN

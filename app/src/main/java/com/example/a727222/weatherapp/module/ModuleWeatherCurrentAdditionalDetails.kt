@@ -7,7 +7,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class ModuleWeatherCurrentAdditionalDetails(context: Context, searchCity : String?, listener : WeatherCurrentAdditionalDetailsFragmentPresenter.WeatherCurrentAdditionalDetailsFragmentPresenterListener?){
+class ModuleWeatherCurrentAdditionalDetails(context: Context, searchCity : String?, listener : WeatherCurrentAdditionalDetailsFragmentPresenter.WeatherCurrentAdditionalDetailsFragmentPresenterListener?) : ModuleBase(context) {
     private var context: Context
     private var searchCity : String?
     private var listener : WeatherCurrentAdditionalDetailsFragmentPresenter.WeatherCurrentAdditionalDetailsFragmentPresenterListener?
