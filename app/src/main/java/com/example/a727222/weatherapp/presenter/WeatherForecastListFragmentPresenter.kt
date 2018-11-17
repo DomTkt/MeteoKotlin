@@ -22,6 +22,7 @@ class WeatherForecastListFragmentPresenter(private var context: Context, private
     init {
         weatherForecastTrunc = WeatherForecast()
         DaggerComponentWeatherForecastList.builder().moduleWeatherForecastList(ModuleWeatherForecastList(context,searchCity,view)).build().plus(this)
+        /// combine them in a single dimensions value, declared in two files.
         nbRowLandscape = context.resources.getInteger(R.integer.nb_row_list_weather_forecast_landscape)
         nbRowPortrait = context.resources.getInteger(R.integer.nb_row_list_weather_forecast_portrait)
     }
@@ -64,6 +65,7 @@ class WeatherForecastListFragmentPresenter(private var context: Context, private
 
         weatherForecastTrunc = weatherForecast
         val orientation = context.resources.configuration.orientation
+        /// no need for this test
         if(orientation == Configuration.ORIENTATION_LANDSCAPE){
             weatherForecastTrunc?.list = weatherForecastTrunc?.list?.take(truncLandscape)
             view?.setForecastItem(weatherForecastTrunc)

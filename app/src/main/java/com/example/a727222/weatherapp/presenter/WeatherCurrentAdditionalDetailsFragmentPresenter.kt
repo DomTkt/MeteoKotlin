@@ -20,9 +20,12 @@ class WeatherCurrentAdditionalDetailsFragmentPresenter {
         this.searchCity = searchCity
         this.listener = listener
         DaggerComponentBase.builder().moduleBase(ModuleBase(context)).build().plus(this)
+
+        //// Commented code
         //DaggerComponentWeatherCurrentAdditionalDetails.builder().moduleWeatherCurrentAdditionalDetails(ModuleWeatherCurrentAdditionalDetails(context,null,null)).build().plus(this)
     }
 
+    /// add space before brackets
     fun updateWeatherCurrentAdditionalDetailsData(){
         networking.getCurrentWeather(object : IApiResponse<WeatherCurrent>
         {
@@ -57,7 +60,7 @@ class WeatherCurrentAdditionalDetailsFragmentPresenter {
         },searchCity)
     }
 
-
+    /// Comments
     interface WeatherCurrentAdditionalDetailsFragmentPresenterListener {
 
         fun setWeatherCurrentAdditionalDetailsData(weatherCurrent: WeatherCurrent?)

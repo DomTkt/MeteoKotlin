@@ -2,6 +2,7 @@ package com.example.a727222.weatherapp.interfaces
 
 import com.example.a727222.weatherapp.models.WeatherForecast
 
+// add comments
 interface IA {
     fun updateWeatherForecastList()
     fun updateWeatherForecastListSearch()

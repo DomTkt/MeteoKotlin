@@ -1,6 +1,7 @@
 package com.example.a727222.weatherapp.constant
 
 class WeatherConstants {
+    /// Create an enum for this
     companion object {
         const val CLEAR_SKY_DAY = "01d"
         const val CLEAR_SKY_NIGHT = "01n"

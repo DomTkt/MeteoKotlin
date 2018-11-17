@@ -2,7 +2,7 @@ package com.example.a727222.weatherapp.interfaces
 
 import com.example.a727222.weatherapp.models.WeatherCurrent
 import com.example.a727222.weatherapp.models.WeatherForecast
-
+/// Add some comments describing the purpose of this interface
 interface Networking {
     fun getCurrentWeatherSearch(callback : IApiResponse<WeatherCurrent>, searchCity : String?)
     fun getCurrentWeather(callback : IApiResponse<WeatherCurrent>)

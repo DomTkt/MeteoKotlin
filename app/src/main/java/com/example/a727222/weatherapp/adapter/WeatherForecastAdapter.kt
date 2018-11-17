@@ -10,7 +10,8 @@ import com.example.a727222.weatherapp.models.ForecastItem
 import com.example.a727222.weatherapp.viewholder.WeatherForecastViewHolder
 
 
-
+/// Line return after each comma.
+/// Add one space after comma.
 class WeatherForecastAdapter(val items : ArrayList<ForecastItem>,val context : Context, clickListener : OnItemWeatherForecastClickListener) : RecyclerView.Adapter<WeatherForecastViewHolder>() {
 
     private var onItemClickListener: OnItemWeatherForecastClickListener?
@@ -28,6 +29,7 @@ class WeatherForecastAdapter(val items : ArrayList<ForecastItem>,val context : C
     }
 
     override fun onBindViewHolder(holder: WeatherForecastViewHolder, position: Int) {
+        /// add space after comma
         holder.bind(item = items.get(position),context = context)
     }
 

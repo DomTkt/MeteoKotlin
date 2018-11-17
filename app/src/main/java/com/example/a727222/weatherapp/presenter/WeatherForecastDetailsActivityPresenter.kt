@@ -7,6 +7,7 @@ import com.example.a727222.weatherapp.view.fragment.WeatherForecastListFragment
 class WeatherForecastDetailsActivityPresenter {
 
     private var view : View
+    /// why this intent ?
     private var intent : Intent
 
     constructor(intent : Intent,view : View ){
@@ -18,7 +19,7 @@ class WeatherForecastDetailsActivityPresenter {
     fun updateForecastDetailDay(){
         view.setForecastDetailDayData(intent.getSerializableExtra(WeatherForecastListFragment.WEATHER_FORECAST_DAY_EXTRA) as WeatherForecastDay)
     }
-
+    // rename this interface
     interface View{
         fun setForecastDetailDayData(weatherForecastDay : WeatherForecastDay?)
     }

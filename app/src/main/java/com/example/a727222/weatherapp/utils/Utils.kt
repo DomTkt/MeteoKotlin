@@ -7,11 +7,11 @@ import com.example.a727222.weatherapp.constant.WeatherConstants
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+/// Too many line breaks
 
 
 object Utils {
-
+    /// add comments
     fun convertKelvinToCelsius(tempKelvin: Double?): Int? {
         var tempCelsius : Double? = tempKelvin?.minus(273.15)
         return tempCelsius?.toInt()
@@ -23,10 +23,11 @@ object Utils {
         var stringSunTime : String =  simpleDateFormat.format(date)
         return stringSunTime
     }
-
+    /// Should take an enum type or return an optional.
     fun getTypeIconId (type : String?) : Int{
 
         var id = when(type){
+            /// all this should be a switch
             WeatherConstants.CLEAR_SKY_DAY -> R.drawable.clear_sky
             WeatherConstants.CLEAR_SKY_NIGHT -> R.drawable.night
 
@@ -58,7 +59,9 @@ object Utils {
         }
         return id
     }
-
+    /// create a typealias Location = (Double, Double)
+    ///
+    /// change fun name to cityName(from: Location, context: context)
     fun getCityNameFromLocation(context : Context, latitude : Double , longitude : Double) : String{
         val geocoder = Geocoder(context, Locale.getDefault())
         val addresses = geocoder.getFromLocation(latitude, longitude, 1)

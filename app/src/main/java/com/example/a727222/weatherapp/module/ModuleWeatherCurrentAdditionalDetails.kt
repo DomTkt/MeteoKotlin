@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
+/// add line break after each comma
 @Module
 class ModuleWeatherCurrentAdditionalDetails(context: Context, searchCity : String?, listener : WeatherCurrentAdditionalDetailsFragmentPresenter.WeatherCurrentAdditionalDetailsFragmentPresenterListener?) : ModuleBase(context) {
     private var context: Context

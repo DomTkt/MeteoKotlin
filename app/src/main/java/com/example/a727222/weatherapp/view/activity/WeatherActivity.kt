@@ -17,7 +17,7 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
 
 class WeatherActivity : AppCompatActivity(){
-
+/// Commented code
 //    private val locationListener: LocationListener = object : LocationListener {
 //        override fun onLocationChanged(location: Location) {
 //            println(location)
@@ -27,13 +27,17 @@ class WeatherActivity : AppCompatActivity(){
 //        override fun onProviderDisabled(provider: String) {}
 //    }
 
+    /// colons should be next to property name, no space before.
     private lateinit var scrollView : ScrollView
     private lateinit var constraintlayout : ConstraintLayout
     private var cityCurrent : String? =  null
 
 //    private var locationManager : LocationManager? = null
 
+    /// why private static var ?
+
     companion object {
+        /// here, ": String" is non necessary
         var WEATHER_ACTIVITY_ARGUMENTS : String = "WEATHER_ACTIVITY_ARGUMENTS"
         private var WEATHER_ACTIVITY_ARGUMENTS_ORIENTATION : String = "WEATHER_ACTIVITY_ARGUMENTS_ORIENTATION"
 
@@ -65,6 +69,8 @@ class WeatherActivity : AppCompatActivity(){
         actionBar?.hide()
     }
 
+    /// Should create a static enum like ViewControllerProvider.
+    /// And definitely use generics ;)
     fun displayFragmentWeatherCurrentPrincipalDetails(args : Bundle){
         var fragmentWeatherCurrentPrincipalDetails : WeatherCurrentPrincipalDetailsFragment = WeatherCurrentPrincipalDetailsFragment.newInstance()
         fragmentWeatherCurrentPrincipalDetails.arguments = args
@@ -85,10 +91,12 @@ class WeatherActivity : AppCompatActivity(){
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
         if (newConfig != null) {
+            /// This test should be non necessary
             if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 val refresh = Intent(this, WeatherActivity::class.java)
                 refresh.putExtra(WEATHER_ACTIVITY_ARGUMENTS_ORIENTATION,cityCurrent)
                 startActivity(refresh)
+                /// no need for this
                 this.finish()
 
             } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -119,6 +127,7 @@ class WeatherActivity : AppCompatActivity(){
 
             override fun onError(status: Status) {
                 // TODO: Handle the error.
+
                 println(status)
             }
         })

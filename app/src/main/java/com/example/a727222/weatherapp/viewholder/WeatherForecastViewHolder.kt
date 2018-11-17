@@ -23,10 +23,10 @@ class WeatherForecastViewHolder(itemView: View, onItemClickListener: OnItemWeath
         this.onItemClickListener = onItemClickListener
         itemView.setOnClickListener(this)
     }
-
+    /// Create an interface with bind method, to keep consistence over all project
     fun bind(item : ForecastItem,context : Context){
         forecastDay.text = item.day
-        forecastIcon.setImageResource(Utils.getTypeIconId(item.icon.toString()))
+        forecastIcon.setaImageResource(Utils.getTypeIconId(item.icon.toString()))
         forecastTemperatureMax.text = item.temperature_max.toString() + context.getString(R.string.weather_activity_unit_degree)
         forecastTemperatureMin.text = item.temperature_min.toString() + context.getString(R.string.weather_activity_unit_degree)
     }
