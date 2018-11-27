@@ -26,8 +26,7 @@ class WeatherCurrentPrincipalDetailsFragment : Fragment(), WeatherCurrentPrincip
 
     @Inject
     lateinit var presenter  : WeatherCurrentPrincipalDetailsFragmentPresenter
-
-
+    
     var citySearch : String? = null
 
 

@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <application
         android:allowBackup="true"
@@ -26,6 +27,11 @@
         </activity>
         <activity android:name=".view.activity.WeatherForecastDetailsActivity"></activity>
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAHKaHHStio3k9pVKY-dYGp2koKr50QGjI"/>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="7f9ef2677d2e0312abaf7139d2865420a583831b"
+            />
     </application>
 
 </manifest>

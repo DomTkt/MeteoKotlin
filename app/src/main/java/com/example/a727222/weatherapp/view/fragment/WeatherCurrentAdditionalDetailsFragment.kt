@@ -14,6 +14,9 @@ import com.example.a727222.weatherapp.module.ModuleWeatherCurrentAdditionalDetai
 import com.example.a727222.weatherapp.presenter.WeatherCurrentAdditionalDetailsFragmentPresenter
 import com.example.a727222.weatherapp.utils.Utils
 import com.example.a727222.weatherapp.view.activity.WeatherActivity
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 class WeatherCurrentAdditionalDetailsFragment : Fragment(), WeatherCurrentAdditionalDetailsFragmentPresenter.WeatherCurrentAdditionalDetailsFragmentPresenterListener {
@@ -65,9 +68,19 @@ class WeatherCurrentAdditionalDetailsFragment : Fragment(), WeatherCurrentAdditi
     }
 
     override fun setWeatherCurrentAdditionalDetailsData(weatherCurrent: WeatherCurrent?) {
-        var test : Long?
-        var test2 : Long
 
+        //Create an Observable//
+
+        val myObservable = getObservable(weatherCurrent)
+
+//Create an Observer//
+
+        val myObserver = getObserver()
+
+//Subscribe myObserver to myObservable//
+
+        myObservable
+                .subscribe(myObserver)
 
         textViewWeatherSunrise.setText(getString(R.string.weather_activity_label_sunrise) + Utils.convertTimeStampInSuntimes(weatherCurrent?.sys?.sunrise?.toLong()))
         textViewWeatherSunset.setText(getString(R.string.weather_activity_label_sunset) + Utils.convertTimeStampInSuntimes(weatherCurrent?.sys?.sunset?.toLong()))
@@ -80,4 +93,34 @@ class WeatherCurrentAdditionalDetailsFragment : Fragment(), WeatherCurrentAdditi
         textViewWeatherHumidity.setText(getString(R.string.weather_activity_label_humidity) + weatherCurrent?.main?.humidity.toString() + getString(R.string.weather_activity_unit_percent))
         textViewWeatherPressure.setText(getString(R.string.weather_activity_label_pressure) + weatherCurrent?.main?.pressure.toString() + getString(R.string.weather_activity_unit_pressure))
     }
+
+    private fun getObservable(weatherCurrent: WeatherCurrent?): Observable<WeatherCurrent> {
+        return Observable.just(weatherCurrent)
+    }
+
+    private fun getObserver(): Observer<WeatherCurrent?> {
+        return object : Observer<WeatherCurrent?> {
+            override fun onSubscribe(d: Disposable) {
+            }
+
+//Every time onNext is called, print the value to Android Studio’s Logcat//
+
+            override fun onNext(s: WeatherCurrent) {
+                println(s)
+            }
+
+//Called if an exception is thrown//
+
+            override fun onError(e: Throwable) {
+
+            }
+
+//When onComplete is called, print the following to Logcat//
+
+            override fun onComplete() {
+
+            }
+        }
+    }
+
 }

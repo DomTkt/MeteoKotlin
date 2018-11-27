@@ -2,11 +2,14 @@ package com.example.a727222.weatherapp.presenter
 
 import android.content.Context
 import com.example.a727222.weatherapp.component.DaggerComponentBase
-import com.example.a727222.weatherapp.interfaces.IApiResponse
 import com.example.a727222.weatherapp.interfaces.Networking
 import com.example.a727222.weatherapp.models.WeatherCurrent
 import com.example.a727222.weatherapp.module.ModuleBase
+import com.example.a727222.weatherapp.network.ApiServiceRx
+import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
+
+
 
 class WeatherCurrentAdditionalDetailsFragmentPresenter {
 
@@ -24,37 +27,29 @@ class WeatherCurrentAdditionalDetailsFragmentPresenter {
     }
 
     fun updateWeatherCurrentAdditionalDetailsData(){
-        networking.getCurrentWeather(object : IApiResponse<WeatherCurrent>
-        {
-            override fun onSuccess(obj: WeatherCurrent?) {
-                listener?.setWeatherCurrentAdditionalDetailsData(obj)
-            }
 
-            override fun onError(t: Throwable) {
-                println(t)
-            }
-        }
-        )
+        ApiServiceRx().getObservableWeatherCurrent()
+                .subscribeBy (
+                    onNext = {
+                        listener?.setWeatherCurrentAdditionalDetailsData(it)
+                    },
+                    onError =  { it.printStackTrace() },
+                    onComplete = { println("Done!") }
+                )
     }
 
     fun updateWeatherCurrentAdditionalDetailsDataSearch(){
 
-        networking.getCurrentWeatherSearch(object : IApiResponse<WeatherCurrent>{
-            override fun onSuccess(obj: WeatherCurrent?) {
-                //If the name of the city is unknow by the weather API...
-                if(obj != null) {
-                    listener?.setWeatherCurrentAdditionalDetailsData(obj)
-                }else{
-                    updateWeatherCurrentAdditionalDetailsData()
-                }
-
-            }
-
-            override fun onError(t: Throwable) {
-                println(t)
-            }
-
-        },searchCity)
+        ApiServiceRx().getObservableWeatherCurrentSearch(searchCity)
+                .subscribeBy (
+                        onNext = {
+                            listener?.setWeatherCurrentAdditionalDetailsData(it)
+                       },
+                        onError =  {
+                            updateWeatherCurrentAdditionalDetailsData()
+                            it.printStackTrace() },
+                        onComplete = { println("Done!") }
+                )
     }
 
 

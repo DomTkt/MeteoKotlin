@@ -22,6 +22,8 @@ import com.example.a727222.weatherapp.presenter.WeatherForecastListFragmentPrese
 import com.example.a727222.weatherapp.utils.Utils
 import com.example.a727222.weatherapp.view.activity.WeatherActivity
 import com.example.a727222.weatherapp.view.activity.WeatherForecastDetailsActivity
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.rxkotlin.toObservable
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -92,6 +94,14 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
             }
         }
 
+        val list = forecastItemList
+
+        list.toObservable() // extension function for Iterables
+                .subscribeBy(  // named arguments for lambda Subscribers
+                        onNext = { println(it) },
+                        onError =  { it.printStackTrace() },
+                        onComplete = { println("Done!") }
+                )
 
     }
 }

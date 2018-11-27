@@ -2,10 +2,11 @@ package com.example.a727222.weatherapp.presenter
 
 import android.content.Context
 import com.example.a727222.weatherapp.component.DaggerComponentBase
-import com.example.a727222.weatherapp.interfaces.IApiResponse
 import com.example.a727222.weatherapp.interfaces.Networking
 import com.example.a727222.weatherapp.models.WeatherCurrent
 import com.example.a727222.weatherapp.module.ModuleBase
+import com.example.a727222.weatherapp.network.ApiServiceRx
+import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 class WeatherCurrentPrincipalDetailsFragmentPresenter {
@@ -23,40 +24,31 @@ class WeatherCurrentPrincipalDetailsFragmentPresenter {
     }
 
     fun updateWeatherCurrentPrincipalDetailsData(){
-        networking.getCurrentWeather(object : IApiResponse<WeatherCurrent>
-        {
-            override fun onSuccess(obj: WeatherCurrent?) {
-                listener?.setWeatherCurrentPrincipalDetailsData(obj)
-            }
 
-            override fun onError(t: Throwable) {
-                println(t)
-            }
-        }
-        )
+        ApiServiceRx().getObservableWeatherCurrent()
+                .subscribeBy (
+                        onNext = {
+                            listener?.setWeatherCurrentPrincipalDetailsData(it)
+                        },
+                        onError =  { it.printStackTrace() },
+                        onComplete = { println("Done!") }
+                )
     }
 
     fun updateWeatherCurrentPrincipalDetailsDataSearch(){
 
-        networking.getCurrentWeatherSearch(object : IApiResponse<WeatherCurrent> {
-            override fun onSuccess(obj: WeatherCurrent?) {
-                //If the name of the city is unknow by the weather API...
-                if(obj != null) {
-                    listener?.setWeatherCurrentPrincipalDetailsData(obj)
-                }else{
-                    updateWeatherCurrentPrincipalDetailsData()
-                }
+        ApiServiceRx().getObservableWeatherCurrentSearch(searchCity)
+                .subscribeBy (
+                        onNext = {
+                            listener?.setWeatherCurrentPrincipalDetailsData(it)
+                        },
+                        onError =  {
+                            updateWeatherCurrentPrincipalDetailsData()
+                            it.printStackTrace() },
+                        onComplete = { println("Done!") }
+                )
 
-            }
-
-            override fun onError(t: Throwable) {
-                println(t)
-            }
-
-        },searchCity)
     }
-
-
 
     interface WeatherCurrentPrincipalDetailsFragmentPresenterListener {
 

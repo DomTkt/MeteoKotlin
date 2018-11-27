@@ -5,10 +5,11 @@ import android.content.res.Configuration
 import com.example.a727222.weatherapp.R
 import com.example.a727222.weatherapp.component.DaggerComponentWeatherForecastList
 import com.example.a727222.weatherapp.interfaces.IA
-import com.example.a727222.weatherapp.interfaces.IApiResponse
 import com.example.a727222.weatherapp.interfaces.Networking
 import com.example.a727222.weatherapp.models.WeatherForecast
 import com.example.a727222.weatherapp.module.ModuleWeatherForecastList
+import com.example.a727222.weatherapp.network.ApiServiceRx
+import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 class WeatherForecastListFragmentPresenter(private var context: Context, private var searchCity: String?, var view: View?) : IA {
@@ -27,37 +28,28 @@ class WeatherForecastListFragmentPresenter(private var context: Context, private
     }
 
     override fun updateWeatherForecastList(){
-        networking.getWeatherForecastForOneWeek(object : IApiResponse<WeatherForecast>
-        {
-            override fun onSuccess(obj: WeatherForecast?) {
-                truncListWeather(obj,nbRowLandscape,nbRowPortrait)
-            }
 
-            override fun onError(t: Throwable) {
-                println(t)
-            }
-        }
-        )
+        ApiServiceRx().getObservableWeatherForecast()
+                .subscribeBy(
+                        onNext = {
+                            truncListWeather(it,nbRowLandscape,nbRowPortrait)
+                        },
+                        onError =  { it.printStackTrace() },
+                        onComplete = { println("Done!") }
+                )
     }
 
     override fun updateWeatherForecastListSearch(){
-
-        networking.getWeatherForecastForOneWeekSearch(object : IApiResponse<WeatherForecast> {
-            override fun onSuccess(obj: WeatherForecast?) {
-                //If the name of the city is unknown by the weather API...
-                if(obj != null) {
-                    truncListWeather(obj,nbRowLandscape,nbRowPortrait)
-                }else{
-                    updateWeatherForecastList()
-                }
-
-
-            }
-            override fun onError(t: Throwable) {
-                println(t)
-            }
-
-        },searchCity)
+        ApiServiceRx().getObservableWeatherForecastSearch(searchCity)
+                .subscribeBy (
+                        onNext = {
+                                truncListWeather(it,nbRowLandscape,nbRowPortrait)
+                        },
+                        onError =  {
+                            updateWeatherForecastList()
+                            it.printStackTrace() },
+                        onComplete = { println("Done!") }
+                )
     }
 
     override fun truncListWeather(weatherForecast : WeatherForecast?,truncLandscape : Int, truncPortrait : Int){

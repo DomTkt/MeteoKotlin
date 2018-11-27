@@ -19,7 +19,7 @@ object Utils {
 
     fun convertTimeStampInSuntimes(milliseconds : Long?) : String{
         var simpleDateFormat : SimpleDateFormat = SimpleDateFormat("kk:mm")
-        var date : Date? = milliseconds?.times(1000)?.let { Date(it) }
+        var date : Long? = milliseconds?.times(1000)
         var stringSunTime : String =  simpleDateFormat.format(date)
         return stringSunTime
     }
@@ -67,10 +67,6 @@ object Utils {
             cityName = addresses[0].locality
         }
         return cityName
-    }
-
-    fun getLocation(context : Context){
-
     }
 
 
