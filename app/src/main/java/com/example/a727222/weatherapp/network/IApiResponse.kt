@@ -1,4 +1,4 @@
-package com.example.a727222.weatherapp.interfaces
+package com.example.a727222.weatherapp.network
 
 interface IApiResponse<T> {
     fun onSuccess(obj: T?)

@@ -7,6 +7,7 @@ import com.example.a727222.weatherapp.view.fragment.WeatherForecastListFragment
 class WeatherForecastDetailsActivityPresenter {
 
     private var view : View
+    //to getSerializableExtra
     private var intent : Intent
 
     constructor(intent : Intent,view : View ){

@@ -10,7 +10,7 @@ interface IWeatherItemAPIServices {
 
         @GET("/data/2.5/weather")
         fun weatherCurrent(@Query("q") city: String,
-                               @Query("APPID") appId: String): Call<WeatherCurrent>
+        @Query("APPID") appId: String): Call<WeatherCurrent>
 
         @GET("/data/2.5/forecast/daily")
         fun weatherForecast(@Query("q") city: String,

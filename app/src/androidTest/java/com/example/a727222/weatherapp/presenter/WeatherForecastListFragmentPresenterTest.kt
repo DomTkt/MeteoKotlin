@@ -4,7 +4,7 @@ import android.content.Context
 import android.support.test.InstrumentationRegistry
 import com.example.a727222.weatherapp.component.DaggerComponentWeatherForecastList
 import com.example.a727222.weatherapp.interfaces.IA
-import com.example.a727222.weatherapp.interfaces.IApiResponse
+import com.example.a727222.weatherapp.network.IApiResponse
 import com.example.a727222.weatherapp.interfaces.Networking
 import com.example.a727222.weatherapp.models.*
 import com.example.a727222.weatherapp.module.ModuleWeatherForecastList

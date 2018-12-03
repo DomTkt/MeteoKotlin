@@ -16,7 +16,6 @@ import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.ContentViewEvent
 import com.example.a727222.weatherapp.R
-import com.example.a727222.weatherapp.network.ApiServiceRx
 import com.example.a727222.weatherapp.utils.Utils
 import com.example.a727222.weatherapp.view.fragment.WeatherCurrentAdditionalDetailsFragment
 import com.example.a727222.weatherapp.view.fragment.WeatherCurrentPrincipalDetailsFragment
@@ -28,7 +27,6 @@ import com.google.android.gms.location.places.Place
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import io.fabric.sdk.android.Fabric
-import io.reactivex.rxkotlin.subscribeBy
 
 
 class WeatherActivity : AppCompatActivity(){
@@ -58,13 +56,6 @@ class WeatherActivity : AppCompatActivity(){
         hideActionBar()
         displaySearchBar()
         checkDataExistForChangeOrientation()
-
-        ApiServiceRx().getObservableWeatherCurrent()
-                .subscribeBy (
-                    onNext = { println(it) },
-                    onError =  { it.printStackTrace() },
-                    onComplete = { println("Done!") }
-                )
     }
 
     fun hideActionBar(){

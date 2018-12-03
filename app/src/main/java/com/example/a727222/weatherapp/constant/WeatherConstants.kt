@@ -1,33 +1,24 @@
 package com.example.a727222.weatherapp.constant
 
-class WeatherConstants {
-    companion object {
-        const val CLEAR_SKY_DAY = "01d"
-        const val CLEAR_SKY_NIGHT = "01n"
-
-        const val FEW_CLOUD_DAY = "02d"
-        const val FEW_CLOUD_NIGHT = "02n"
-
-        const val SCATTERED_CLOUDS_DAY = "03d"
-        const val SCATTERED_CLOUDS_NIGHT = "03n"
-
-        const val BROKEN_CLOUDS_DAY = "04d"
-        const val BROKEN_CLOUDS_NIGHT = "04n"
-
-        const val SHOWER_RAIN_DAY = "09d"
-        const val SHOWER_RAIN_NIGHT = "09n"
-
-        const val RAIN_DAY = "10d"
-        const val RAIN_NIGHT = "10n"
-
-        const val THUNDERSTORM_DAY = "11d"
-        const val THENDERSTORM_NIGHT = "11n"
-
-        const val SNOW_DAY = "13d"
-        const val SNOW_NIGHT = "13n"
-
-        const val MIST_DAY = "50d"
-        const val MIST_NIGHT = "50n"
-
-    }
+enum class WeatherConstants(val value : String?){
+    CLEAR_SKY_DAY("01d"),
+    CLEAR_SKY_NIGHT("01n"),
+    FEW_CLOUD_DAY("02d"),
+    FEW_CLOUD_NIGHT("02n"),
+    SCATTERED_CLOUDS_DAY("03d"),
+    SCATTERED_CLOUDS_NIGHT("03n"),
+    BROKEN_CLOUDS_DAY("04d"),
+    BROKEN_CLOUDS_NIGHT("04n"),
+    SHOWER_RAIN_DAY("09d"),
+    SHOWER_RAIN_NIGHT("09n"),
+    RAIN_DAY("10d"),
+    RAIN_NIGHT("10n"),
+    THUNDERSTORM_DAY("11d"),
+    THENDERSTORM_NIGHT("11n"),
+    SNOW_DAY("13d"),
+    SNOW_NIGHT("13n"),
+    MIST_DAY("50d"),
+    MIST_NIGHT("50n");
 }
+
+

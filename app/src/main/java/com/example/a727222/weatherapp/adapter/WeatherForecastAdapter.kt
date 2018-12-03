@@ -28,7 +28,7 @@ class WeatherForecastAdapter(val items : ArrayList<ForecastItem>,val context : C
     }
 
     override fun onBindViewHolder(holder: WeatherForecastViewHolder, position: Int) {
-        holder.bind(item = items.get(position),context = context)
+        holder.bind(from = items.get(position),context = context)
     }
 
 }

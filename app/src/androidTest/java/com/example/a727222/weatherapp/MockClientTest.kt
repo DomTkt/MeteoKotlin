@@ -2,7 +2,7 @@ package com.example.a727222.weatherapp
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-import com.example.a727222.weatherapp.interfaces.IApiResponse
+import com.example.a727222.weatherapp.network.IApiResponse
 import com.example.a727222.weatherapp.models.*
 import com.example.a727222.weatherapp.network.MockClient
 import junit.framework.Assert.assertEquals
@@ -58,7 +58,7 @@ class MockClientTest {
         val appContext = InstrumentationRegistry.getTargetContext()
 
         var mockClient: MockClient = MockClient(context = appContext)
-        mockClient.getCurrentWeather(object : IApiResponse<WeatherCurrent>{
+        mockClient.getCurrentWeather(object : IApiResponse<WeatherCurrent> {
             override fun onSuccess(obj: WeatherCurrent?) {
                 assertEquals(weatherCurrent, obj)
             }

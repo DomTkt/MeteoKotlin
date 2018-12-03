@@ -1,6 +1,5 @@
 package com.example.a727222.weatherapp.network
 
-import com.example.a727222.weatherapp.interfaces.IApiResponse
 import com.example.a727222.weatherapp.interfaces.IWeatherItemAPIServices
 import com.example.a727222.weatherapp.interfaces.Networking
 import com.example.a727222.weatherapp.models.WeatherCurrent

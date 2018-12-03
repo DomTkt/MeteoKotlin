@@ -22,8 +22,8 @@ class WeatherCurrentAdditionalDetailsFragmentPresenter {
 
         this.searchCity = searchCity
         this.listener = listener
+        //Inject
         DaggerComponentBase.builder().moduleBase(ModuleBase(context)).build().plus(this)
-        //DaggerComponentWeatherCurrentAdditionalDetails.builder().moduleWeatherCurrentAdditionalDetails(ModuleWeatherCurrentAdditionalDetails(context,null,null)).build().plus(this)
     }
 
     fun updateWeatherCurrentAdditionalDetailsData(){
@@ -52,7 +52,7 @@ class WeatherCurrentAdditionalDetailsFragmentPresenter {
                 )
     }
 
-
+    //Link to view
     interface WeatherCurrentAdditionalDetailsFragmentPresenterListener {
 
         fun setWeatherCurrentAdditionalDetailsData(weatherCurrent: WeatherCurrent?)

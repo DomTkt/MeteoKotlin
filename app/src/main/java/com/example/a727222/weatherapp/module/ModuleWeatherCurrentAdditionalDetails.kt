@@ -7,7 +7,9 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class ModuleWeatherCurrentAdditionalDetails(context: Context, searchCity : String?, listener : WeatherCurrentAdditionalDetailsFragmentPresenter.WeatherCurrentAdditionalDetailsFragmentPresenterListener?) : ModuleBase(context) {
+class ModuleWeatherCurrentAdditionalDetails(context: Context,
+                                            searchCity : String?,
+                                            listener : WeatherCurrentAdditionalDetailsFragmentPresenter.WeatherCurrentAdditionalDetailsFragmentPresenterListener?) : ModuleBase(context) {
     private var context: Context
     private var searchCity : String?
     private var listener : WeatherCurrentAdditionalDetailsFragmentPresenter.WeatherCurrentAdditionalDetailsFragmentPresenterListener?
@@ -21,6 +23,6 @@ class ModuleWeatherCurrentAdditionalDetails(context: Context, searchCity : Strin
     @Provides
     @Singleton
     fun provideWeatherCurrentAdditionalDetailsFragmentPresenter() : WeatherCurrentAdditionalDetailsFragmentPresenter {
-        return WeatherCurrentAdditionalDetailsFragmentPresenter(context,searchCity,listener)
+        return WeatherCurrentAdditionalDetailsFragmentPresenter(context, searchCity, listener)
     }
 }
