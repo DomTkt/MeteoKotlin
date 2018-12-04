@@ -9,64 +9,46 @@ import com.example.a727222.weatherapp.interfaces.Networking
 import com.example.a727222.weatherapp.models.WeatherForecast
 import com.example.a727222.weatherapp.module.ModuleWeatherForecastList
 import com.example.a727222.weatherapp.network.ApiServiceRx
-import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
-class WeatherForecastListFragmentPresenter(private var context: Context, private var searchCity: String?, var view: View?) : IA {
+class WeatherForecastListFragmentPresenter(private var context: Context) : IA {
+
+    override val weatherForecastListData: PublishSubject<WeatherForecast?>
 
     @Inject
     lateinit var networking : Networking
-    private var weatherForecastTrunc : WeatherForecast?
+    private var weatherForecastTrunc : WeatherForecast
     private val nbRowLandscape : Int
     private val nbRowPortrait : Int
 
+
     init {
         weatherForecastTrunc = WeatherForecast()
-        DaggerComponentWeatherForecastList.builder().moduleWeatherForecastList(ModuleWeatherForecastList(context,searchCity,view)).build().plus(this)
+        DaggerComponentWeatherForecastList.builder().moduleWeatherForecastList(ModuleWeatherForecastList(context)).build().plus(this)
         nbRowLandscape = context.resources.getInteger(R.integer.nb_row_list_weather_forecast_landscape)
         nbRowPortrait = context.resources.getInteger(R.integer.nb_row_list_weather_forecast_portrait)
+        weatherForecastListData = PublishSubject.create()
     }
 
-    override fun updateWeatherForecastList(){
-
-        ApiServiceRx().getObservableWeatherForecast()
-                .subscribeBy(
-                        onNext = {
-                            truncListWeather(it,nbRowLandscape,nbRowPortrait)
-                        },
-                        onError =  { it.printStackTrace() },
-                        onComplete = { println("Done!") }
-                )
-    }
-
-    override fun updateWeatherForecastListSearch(){
+    override fun updateWeatherForecastListSearch(searchCity: String?){
         ApiServiceRx().getObservableWeatherForecastSearch(searchCity)
-                .subscribeBy (
-                        onNext = {
-                                truncListWeather(it,nbRowLandscape,nbRowPortrait)
-                        },
-                        onError =  {
-                            updateWeatherForecastList()
-                            it.printStackTrace() },
-                        onComplete = { println("Done!") }
-                )
+                .subscribe( { weatherForecast : WeatherForecast ->
+                    truncListWeather(weatherForecast,nbRowLandscape,nbRowPortrait)
+                    weatherForecastListData.onNext(weatherForecastTrunc)
+                }, { throwable ->
+                    weatherForecastListData.onError(throwable)
+                })
     }
 
-    override fun truncListWeather(weatherForecast : WeatherForecast?,truncLandscape : Int, truncPortrait : Int){
+    override fun truncListWeather(weatherForecast : WeatherForecast,truncLandscape : Int, truncPortrait : Int){
 
         weatherForecastTrunc = weatherForecast
         val orientation = context.resources.configuration.orientation
         if(orientation == Configuration.ORIENTATION_LANDSCAPE){
             weatherForecastTrunc?.list = weatherForecastTrunc?.list?.take(truncLandscape)
-            view?.setForecastItem(weatherForecastTrunc)
         }else {
             weatherForecastTrunc?.list = weatherForecastTrunc?.list?.take(truncPortrait)
-            view?.setForecastItem(weatherForecastTrunc)
         }
-    }
-
-
-    interface View{
-        fun setForecastItem(weatherForecast : WeatherForecast?)
     }
 }

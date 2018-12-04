@@ -7,20 +7,16 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class ModuleWeatherCurrentPrincipalDetails(context: Context, searchCity : String?, view : WeatherCurrentPrincipalDetailsFragmentPresenter.WeatherCurrentPrincipalDetailsFragmentPresenterListener?){
+class ModuleWeatherCurrentPrincipalDetails(context: Context){
     private var context: Context
-    private var searchCity : String?
-    private var view : WeatherCurrentPrincipalDetailsFragmentPresenter.WeatherCurrentPrincipalDetailsFragmentPresenterListener?
 
     init{
         this.context = context
-        this.searchCity = searchCity
-        this.view = view
     }
 
     @Provides
     @Singleton
     fun provideWeatherCurrentPrincipalDetailsFragmentPresenter() : WeatherCurrentPrincipalDetailsFragmentPresenter {
-        return WeatherCurrentPrincipalDetailsFragmentPresenter(context,searchCity,view)
+        return WeatherCurrentPrincipalDetailsFragmentPresenter(context)
     }
 }

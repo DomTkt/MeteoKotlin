@@ -11,15 +11,11 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class ModuleWeatherForecastList(context: Context, searchCity : String?, view : WeatherForecastListFragmentPresenter.View?){
+class ModuleWeatherForecastList(context: Context){
     private var context: Context
-    private var searchCity : String?
-    private var view : WeatherForecastListFragmentPresenter.View?
 
     init{
         this.context = context
-        this.searchCity = searchCity
-        this.view = view
     }
 
     @Provides
@@ -36,12 +32,12 @@ class ModuleWeatherForecastList(context: Context, searchCity : String?, view : W
     @Provides
     @Singleton
     fun provideIA() : IA {
-        return WeatherForecastListFragmentPresenter(context,searchCity,view)
+        return WeatherForecastListFragmentPresenter(context)
     }
 
     @Provides
     @Singleton
     fun provideWeatherForecastListFragmentPresenter() : WeatherForecastListFragmentPresenter {
-        return WeatherForecastListFragmentPresenter(context,searchCity,view)
+        return WeatherForecastListFragmentPresenter(context)
     }
 }

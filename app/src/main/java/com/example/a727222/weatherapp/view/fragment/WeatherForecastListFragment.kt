@@ -18,18 +18,17 @@ import com.example.a727222.weatherapp.models.ForecastItem
 import com.example.a727222.weatherapp.models.WeatherForecast
 import com.example.a727222.weatherapp.models.WeatherForecastDay
 import com.example.a727222.weatherapp.module.ModuleWeatherForecastList
-import com.example.a727222.weatherapp.presenter.WeatherForecastListFragmentPresenter
 import com.example.a727222.weatherapp.utils.Utils
 import com.example.a727222.weatherapp.view.activity.WeatherActivity
 import com.example.a727222.weatherapp.view.activity.WeatherForecastDetailsActivity
-import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.rxkotlin.toObservable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
 
-class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListener, WeatherForecastListFragmentPresenter.View {
+class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListener {
 
     companion object {
 
@@ -65,21 +64,24 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
         recyclerViewWeatherForecast = view.findViewById(R.id.weather_forecast_list_fragment_recyclerView)
         val b : Bundle? = arguments
         citySearch = b?.getString(WeatherActivity.WEATHER_ACTIVITY_ARGUMENTS)
-        DaggerComponentWeatherForecastList.builder().moduleWeatherForecastList(ModuleWeatherForecastList(requireContext(),citySearch,this)).build().plus(this)
-        //presenter = WeatherForecastListFragmentPresenter(requireContext(),citySearch,this)
-        if(citySearch != null){
-            presenter.updateWeatherForecastListSearch()
-        }else {
-            presenter.updateWeatherForecastList()
-        }
+        DaggerComponentWeatherForecastList.builder().moduleWeatherForecastList(ModuleWeatherForecastList(requireContext())).build().plus(this)
+
+        presenter.updateWeatherForecastListSearch(citySearch)
+        presenter.weatherForecastListData
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe( { weatherForecast ->
+                    setForecastItem(weatherForecast)
+                }, { throwable -> println("Erreur Forecast : " + throwable)
+
+                })
         return view
     }
 
-    override fun setForecastItem(weatherForecast: WeatherForecast?) {
+    fun setForecastItem(weatherForecast: WeatherForecast?) {
         this.weatherForecast = weatherForecast
-
         recyclerViewWeatherForecast.layoutManager = LinearLayoutManager(this@WeatherForecastListFragment.context)
-        recyclerViewWeatherForecast.adapter = WeatherForecastAdapter(forecastItemList,this@WeatherForecastListFragment.requireContext(),this@WeatherForecastListFragment)
+        recyclerViewWeatherForecast.adapter = WeatherForecastAdapter(forecastItemList,this@WeatherForecastListFragment)
 
         val SimpleDateFormatDayOfWeek = SimpleDateFormat("EEEE", Locale.ENGLISH)
 
@@ -93,15 +95,5 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
 
             }
         }
-
-        val list = forecastItemList
-
-        list.toObservable() // extension function for Iterables
-                .subscribeBy(  // named arguments for lambda Subscribers
-                        onNext = { println(it) },
-                        onError =  { it.printStackTrace() },
-                        onComplete = { println("Done!") }
-                )
-
     }
 }

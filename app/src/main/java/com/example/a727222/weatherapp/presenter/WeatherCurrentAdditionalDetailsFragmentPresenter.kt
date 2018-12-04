@@ -6,56 +6,30 @@ import com.example.a727222.weatherapp.interfaces.Networking
 import com.example.a727222.weatherapp.models.WeatherCurrent
 import com.example.a727222.weatherapp.module.ModuleBase
 import com.example.a727222.weatherapp.network.ApiServiceRx
-import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 
 
 class WeatherCurrentAdditionalDetailsFragmentPresenter {
 
-    var listener : WeatherCurrentAdditionalDetailsFragmentPresenterListener?
     @Inject
     lateinit var networking : Networking
-    private var searchCity : String?
+    var weatherCurrentAdditionalDetailsData : PublishSubject<WeatherCurrent?>
 
-    constructor(context : Context, searchCity : String?,listener : WeatherCurrentAdditionalDetailsFragmentPresenterListener?){
-
-        this.searchCity = searchCity
-        this.listener = listener
+    constructor(context : Context){
+        weatherCurrentAdditionalDetailsData = PublishSubject.create()
         //Inject
         DaggerComponentBase.builder().moduleBase(ModuleBase(context)).build().plus(this)
     }
-
-    fun updateWeatherCurrentAdditionalDetailsData(){
-
-        ApiServiceRx().getObservableWeatherCurrent()
-                .subscribeBy (
-                    onNext = {
-                        listener?.setWeatherCurrentAdditionalDetailsData(it)
-                    },
-                    onError =  { it.printStackTrace() },
-                    onComplete = { println("Done!") }
-                )
-    }
-
-    fun updateWeatherCurrentAdditionalDetailsDataSearch(){
+    fun updateWeatherCurrentAdditionalDetailsDataSearch(searchCity : String?){
 
         ApiServiceRx().getObservableWeatherCurrentSearch(searchCity)
-                .subscribeBy (
-                        onNext = {
-                            listener?.setWeatherCurrentAdditionalDetailsData(it)
-                       },
-                        onError =  {
-                            updateWeatherCurrentAdditionalDetailsData()
-                            it.printStackTrace() },
-                        onComplete = { println("Done!") }
-                )
-    }
-
-    //Link to view
-    interface WeatherCurrentAdditionalDetailsFragmentPresenterListener {
-
-        fun setWeatherCurrentAdditionalDetailsData(weatherCurrent: WeatherCurrent?)
+                .subscribe( { weatherCurrent : WeatherCurrent ->
+        weatherCurrentAdditionalDetailsData.onNext(weatherCurrent)
+        }, { throwable ->
+            weatherCurrentAdditionalDetailsData.onError(throwable)
+        })
 
     }
 }

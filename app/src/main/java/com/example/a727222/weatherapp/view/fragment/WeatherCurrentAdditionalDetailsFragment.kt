@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import com.example.a727222.weatherapp.R
 import com.example.a727222.weatherapp.component.DaggerComponentWeatherCurrentAdditionalDetails
 import com.example.a727222.weatherapp.models.WeatherCurrent
@@ -14,12 +15,11 @@ import com.example.a727222.weatherapp.module.ModuleWeatherCurrentAdditionalDetai
 import com.example.a727222.weatherapp.presenter.WeatherCurrentAdditionalDetailsFragmentPresenter
 import com.example.a727222.weatherapp.utils.Utils
 import com.example.a727222.weatherapp.view.activity.WeatherActivity
-import io.reactivex.Observable
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class WeatherCurrentAdditionalDetailsFragment : Fragment(), WeatherCurrentAdditionalDetailsFragmentPresenter.WeatherCurrentAdditionalDetailsFragmentPresenterListener {
+class WeatherCurrentAdditionalDetailsFragment : Fragment() {
 
     private lateinit var textViewWeatherSunrise : TextView
     private lateinit var textViewWeatherSunset : TextView
@@ -40,14 +40,17 @@ class WeatherCurrentAdditionalDetailsFragment : Fragment(), WeatherCurrentAdditi
         init(view)
         var b : Bundle? = arguments
         citySearch = b?.getString(WeatherActivity.WEATHER_ACTIVITY_ARGUMENTS)
-        //presenter = WeatherCurrentAdditionalDetailsFragmentPresenter(requireContext(),citySearch,this)
-        DaggerComponentWeatherCurrentAdditionalDetails.builder().moduleWeatherCurrentAdditionalDetails(ModuleWeatherCurrentAdditionalDetails(requireContext(),citySearch,this)).build().plus(this)
+        DaggerComponentWeatherCurrentAdditionalDetails.builder().moduleWeatherCurrentAdditionalDetails(ModuleWeatherCurrentAdditionalDetails(requireContext())).build().plus(this)
 
-        if(citySearch != null){
-            presenter.updateWeatherCurrentAdditionalDetailsDataSearch()
-        }else {
-            presenter.updateWeatherCurrentAdditionalDetailsData()
-        }
+            presenter.updateWeatherCurrentAdditionalDetailsDataSearch(citySearch)
+            presenter.weatherCurrentAdditionalDetailsData
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe( { weatherCurrent ->
+                setWeatherCurrentAdditionalDetailsData(weatherCurrent)
+            }, { throwable -> Toast.makeText(requireContext(),"Erreur = " + throwable.message,Toast.LENGTH_SHORT).show()
+
+            })
         return view
     }
 
@@ -67,21 +70,7 @@ class WeatherCurrentAdditionalDetailsFragment : Fragment(), WeatherCurrentAdditi
         textViewWeatherPressure = view.findViewById(R.id.weather_current_additional_details_pressure_textView)
     }
 
-    override fun setWeatherCurrentAdditionalDetailsData(weatherCurrent: WeatherCurrent?) {
-
-        //Create an Observable//
-
-        val myObservable = getObservable(weatherCurrent)
-
-//Create an Observer//
-
-        val myObserver = getObserver()
-
-//Subscribe myObserver to myObservable//
-
-        myObservable
-                .subscribe(myObserver)
-
+    fun setWeatherCurrentAdditionalDetailsData(weatherCurrent: WeatherCurrent?) {
         textViewWeatherSunrise.setText(getString(R.string.weather_activity_label_sunrise) + Utils.convertTimeStampInSuntimes(weatherCurrent?.sys?.sunrise?.toLong()))
         textViewWeatherSunset.setText(getString(R.string.weather_activity_label_sunset) + Utils.convertTimeStampInSuntimes(weatherCurrent?.sys?.sunset?.toLong()))
         textViewWeatherClouds.setText(getString(R.string.weather_activity_label_clouds) + weatherCurrent?.clouds?.all.toString() + getString(R.string.weather_activity_unit_percent))
@@ -93,34 +82,4 @@ class WeatherCurrentAdditionalDetailsFragment : Fragment(), WeatherCurrentAdditi
         textViewWeatherHumidity.setText(getString(R.string.weather_activity_label_humidity) + weatherCurrent?.main?.humidity.toString() + getString(R.string.weather_activity_unit_percent))
         textViewWeatherPressure.setText(getString(R.string.weather_activity_label_pressure) + weatherCurrent?.main?.pressure.toString() + getString(R.string.weather_activity_unit_pressure))
     }
-
-    private fun getObservable(weatherCurrent: WeatherCurrent?): Observable<WeatherCurrent> {
-        return Observable.just(weatherCurrent)
-    }
-
-    private fun getObserver(): Observer<WeatherCurrent?> {
-        return object : Observer<WeatherCurrent?> {
-            override fun onSubscribe(d: Disposable) {
-            }
-
-//Every time onNext is called, print the value to Android Studio’s Logcat//
-
-            override fun onNext(s: WeatherCurrent) {
-                println(s)
-            }
-
-//Called if an exception is thrown//
-
-            override fun onError(e: Throwable) {
-
-            }
-
-//When onComplete is called, print the following to Logcat//
-
-            override fun onComplete() {
-
-            }
-        }
-    }
-
 }

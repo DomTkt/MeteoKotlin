@@ -59,6 +59,7 @@ object Utils {
 
 
     fun getCityNameFromLocation(context : Context, latitude : Double , longitude : Double) : String{
+
         val geocoder = Geocoder(context, Locale.getDefault())
         val addresses = geocoder.getFromLocation(latitude, longitude, 1)
         var cityName = ""

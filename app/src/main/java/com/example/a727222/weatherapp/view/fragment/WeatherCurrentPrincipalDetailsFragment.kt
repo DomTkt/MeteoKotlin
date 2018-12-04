@@ -17,7 +17,7 @@ import com.example.a727222.weatherapp.utils.Utils
 import com.example.a727222.weatherapp.view.activity.WeatherActivity
 import javax.inject.Inject
 
-class WeatherCurrentPrincipalDetailsFragment : Fragment(), WeatherCurrentPrincipalDetailsFragmentPresenter.WeatherCurrentPrincipalDetailsFragmentPresenterListener{
+class WeatherCurrentPrincipalDetailsFragment : Fragment(){
 
     private lateinit var textViewWeatherCity : TextView
     private lateinit var textViewWeatherMain : TextView
@@ -37,12 +37,17 @@ class WeatherCurrentPrincipalDetailsFragment : Fragment(), WeatherCurrentPrincip
         init(view)
         var b : Bundle? = arguments
         citySearch = b?.getString(WeatherActivity.WEATHER_ACTIVITY_ARGUMENTS)
-        DaggerComponentWeatherCurrentPrincipalDetails.builder().moduleWeatherCurrentPrincipalDetails(ModuleWeatherCurrentPrincipalDetails(requireContext(),citySearch,this)).build().plus(this)
-        if(citySearch != null){
-            presenter.updateWeatherCurrentPrincipalDetailsDataSearch()
-        }else {
-            presenter.updateWeatherCurrentPrincipalDetailsData()
-        }
+        DaggerComponentWeatherCurrentPrincipalDetails.builder().moduleWeatherCurrentPrincipalDetails(ModuleWeatherCurrentPrincipalDetails(requireContext())).build().plus(this)
+
+            presenter.updateWeatherCurrentPrincipalDetailsDataSearch(citySearch)
+        presenter.weatherCurrentPrincipalDetailsData
+                .subscribe( { weatherCurrent ->
+                    setWeatherCurrentPrincipalDetailsData(weatherCurrent)
+                },
+                        { throwable -> println(throwable.message)
+
+                })
+
         return view
     }
 
@@ -59,7 +64,7 @@ class WeatherCurrentPrincipalDetailsFragment : Fragment(), WeatherCurrentPrincip
         textViewWeatherTemperature = view.findViewById(R.id.weather_current_principal_details_temperature_textView)
     }
 
-    override fun setWeatherCurrentPrincipalDetailsData(weatherCurrent: WeatherCurrent?) {
+     fun setWeatherCurrentPrincipalDetailsData(weatherCurrent: WeatherCurrent?) {
         imageViewWeatherIcon.setImageResource(Utils.getTypeIconId(weatherCurrent?.weather?.get(0)?.icon))
         textViewWeatherCity.setText(weatherCurrent?.name)
         textViewWeatherMain.setText(weatherCurrent?.weather?.get(0)?.main)

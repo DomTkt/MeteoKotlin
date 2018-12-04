@@ -1,6 +1,5 @@
 package com.example.a727222.weatherapp.adapter
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,7 +10,7 @@ import com.example.a727222.weatherapp.viewholder.WeatherForecastViewHolder
 
 
 
-class WeatherForecastAdapter(val items : ArrayList<ForecastItem>,val context : Context, clickListener : OnItemWeatherForecastClickListener) : RecyclerView.Adapter<WeatherForecastViewHolder>() {
+class WeatherForecastAdapter(val items : ArrayList<ForecastItem>, clickListener : OnItemWeatherForecastClickListener) : RecyclerView.Adapter<WeatherForecastViewHolder>() {
 
     private var onItemClickListener: OnItemWeatherForecastClickListener?
 
@@ -20,7 +19,7 @@ class WeatherForecastAdapter(val items : ArrayList<ForecastItem>,val context : C
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherForecastViewHolder {
-        return WeatherForecastViewHolder(LayoutInflater.from(context).inflate(R.layout.weather_forecast_list_item, parent, false),onItemClickListener)
+        return WeatherForecastViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.weather_forecast_list_item, parent, false),onItemClickListener)
     }
 
     override fun getItemCount(): Int {
@@ -28,7 +27,7 @@ class WeatherForecastAdapter(val items : ArrayList<ForecastItem>,val context : C
     }
 
     override fun onBindViewHolder(holder: WeatherForecastViewHolder, position: Int) {
-        holder.bind(from = items.get(position),context = context)
+        holder.fill(items.get(position))
     }
 
 }

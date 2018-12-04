@@ -128,14 +128,14 @@ class WeatherActivity : AppCompatActivity(){
     }
 
     fun checkDataExistForChangeOrientation(){
-        if (cityCurrent == null || cityCurrent == "") {
-
-        }else{
-            var bundle: Bundle? = intent.extras
-            cityCurrent = bundle?.getString(WEATHER_ACTIVITY_ARGUMENTS_ORIENTATION)
-            if (bundle != null) {
-                showWeather(cityCurrent)
-            }
+        var bundle : Bundle? = intent.extras
+        cityCurrent = bundle?.getString(WEATHER_ACTIVITY_ARGUMENTS_ORIENTATION)
+        if(bundle!=null){
+            val args = Bundle()
+            args.putString(WEATHER_ACTIVITY_ARGUMENTS,cityCurrent)
+            displayFragmentWeatherCurrentPrincipalDetails(args)
+            displayFragmentWeatherCurrentPrincipalDetailsWeatherForecastListFragment(args)
+            displayFragmentWeatherCurrentAdditionalDetailsFragment(args)
         }
     }
 
