@@ -32,7 +32,7 @@ class WeatherForecastListFragmentPresenter(private var context: Context) : IA {
     }
 
     override fun updateWeatherForecastListSearch(searchCity: String?){
-        ApiServiceRx().getObservableWeatherForecastSearch(searchCity)
+        ApiServiceRx(context).getObservableWeatherForecastSearch(searchCity)
                 .subscribe( { weatherForecast : WeatherForecast ->
                     truncListWeather(weatherForecast,nbRowLandscape,nbRowPortrait)
                     weatherForecastListData.onNext(weatherForecastTrunc)

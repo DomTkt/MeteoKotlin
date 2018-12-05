@@ -11,21 +11,22 @@ import javax.inject.Inject
 
 
 
-class WeatherCurrentAdditionalDetailsFragmentPresenter {
+class WeatherCurrentAdditionalDetailsFragmentPresenter
+(private var context: Context) {
 
     @Inject
     lateinit var networking : Networking
-    var weatherCurrentAdditionalDetailsData : PublishSubject<WeatherCurrent?>
+    var weatherCurrentAdditionalDetailsData : PublishSubject<WeatherCurrent>
 
-    constructor(context : Context){
+    init {
         weatherCurrentAdditionalDetailsData = PublishSubject.create()
         //Inject
         DaggerComponentBase.builder().moduleBase(ModuleBase(context)).build().plus(this)
     }
     fun updateWeatherCurrentAdditionalDetailsDataSearch(searchCity : String?){
 
-        ApiServiceRx().getObservableWeatherCurrentSearch(searchCity)
-                .subscribe( { weatherCurrent : WeatherCurrent ->
+        ApiServiceRx(context).getObservableWeatherCurrentSearch(searchCity)
+                ?.subscribe( { weatherCurrent : WeatherCurrent ->
         weatherCurrentAdditionalDetailsData.onNext(weatherCurrent)
         }, { throwable ->
             weatherCurrentAdditionalDetailsData.onError(throwable)

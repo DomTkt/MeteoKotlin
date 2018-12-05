@@ -35,10 +35,6 @@ class WeatherForecastViewHolder(itemView: View, onItemClickListener: OnItemWeath
     override fun onClick(v: View?) {
         onItemClickListener?.onItemWeatherClick(adapterPosition)
     }
-
-
-
-
 }
 
 

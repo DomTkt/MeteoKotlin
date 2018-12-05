@@ -30,5 +30,6 @@ class WeatherForecastAdapter(val items : ArrayList<ForecastItem>, clickListener 
         holder.fill(items.get(position))
     }
 
+
 }
 

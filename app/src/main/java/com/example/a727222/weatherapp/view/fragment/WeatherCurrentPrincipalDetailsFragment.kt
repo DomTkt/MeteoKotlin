@@ -45,8 +45,32 @@ class WeatherCurrentPrincipalDetailsFragment : Fragment(){
                     setWeatherCurrentPrincipalDetailsData(weatherCurrent)
                 },
                         { throwable -> println(throwable.message)
-
                 })
+//                .subscribeWith(object : DisposableObserver<Response<WeatherCurrent>>()
+//                {
+//
+//                    override fun onNext(t: Response<WeatherCurrent>) {
+//                        if (t.raw().cacheResponse() != null) {
+//                            if(t.body()!=null) {
+//                                setWeatherCurrentPrincipalDetailsData(t.body())
+//                            }
+//                        } else {
+//                            if(t.raw().networkResponse() != null) {
+//                                setWeatherCurrentPrincipalDetailsData(t.body())
+//                            }
+//                        }
+//                    }
+//
+//                    override fun onComplete() {
+//                    }
+//
+//
+//                    override fun onError(e: Throwable) {
+//                         Toast.makeText(requireContext(),"Erreur = " + e.message, Toast.LENGTH_SHORT).show()
+//                    }
+//
+//                })
+
 
         return view
     }

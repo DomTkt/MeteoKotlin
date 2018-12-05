@@ -15,10 +15,10 @@ object Utils {
         return tempCelsius?.toInt()
     }
 
-    fun convertTimeStampInSuntimes(milliseconds : Long?) : String{
+    fun convertTimeStampInSuntimes(milliseconds : Long?) : String?{
         var simpleDateFormat : SimpleDateFormat = SimpleDateFormat("kk:mm")
-        var date : Long? = milliseconds?.times(1000)
-        var stringSunTime : String =  simpleDateFormat.format(date)
+        var date : Date? = milliseconds?.times(1000)?.let { Date(it) }
+        var stringSunTime : String? =  simpleDateFormat.format(date)
         return stringSunTime
     }
 

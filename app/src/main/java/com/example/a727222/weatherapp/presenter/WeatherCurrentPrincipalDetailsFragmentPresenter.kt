@@ -9,21 +9,21 @@ import com.example.a727222.weatherapp.network.ApiServiceRx
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
-class WeatherCurrentPrincipalDetailsFragmentPresenter {
+class WeatherCurrentPrincipalDetailsFragmentPresenter(private var context: Context) {
 
     @Inject
     lateinit var networking : Networking
-    var weatherCurrentPrincipalDetailsData : PublishSubject<WeatherCurrent?>
+    var weatherCurrentPrincipalDetailsData : PublishSubject<WeatherCurrent>
 
-    constructor(context : Context){
+    init {
         weatherCurrentPrincipalDetailsData = PublishSubject.create()
         DaggerComponentBase.builder().moduleBase(ModuleBase(context)).build().plus(this)
     }
 
     fun updateWeatherCurrentPrincipalDetailsDataSearch(searchCity: String?){
 
-        ApiServiceRx().getObservableWeatherCurrentSearch(searchCity)
-                .subscribe( { weatherCurrent : WeatherCurrent ->
+        ApiServiceRx(context).getObservableWeatherCurrentSearch(searchCity)
+                ?.subscribe( { weatherCurrent : WeatherCurrent ->
                     weatherCurrentPrincipalDetailsData.onNext(weatherCurrent)
                 }, { throwable ->
                     weatherCurrentPrincipalDetailsData.onError(throwable)

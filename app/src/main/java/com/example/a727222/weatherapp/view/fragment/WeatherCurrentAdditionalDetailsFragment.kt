@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import com.example.a727222.weatherapp.R
 import com.example.a727222.weatherapp.component.DaggerComponentWeatherCurrentAdditionalDetails
 import com.example.a727222.weatherapp.models.WeatherCurrent
@@ -47,10 +46,30 @@ class WeatherCurrentAdditionalDetailsFragment : Fragment() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe( { weatherCurrent ->
-                setWeatherCurrentAdditionalDetailsData(weatherCurrent)
-            }, { throwable -> Toast.makeText(requireContext(),"Erreur = " + throwable.message,Toast.LENGTH_SHORT).show()
+                        setWeatherCurrentAdditionalDetailsData(weatherCurrent)
+                },
+                        { throwable -> println(throwable.message)
 
-            })
+                })
+//                    .subscribeWith(object : DisposableObserver<Response<WeatherCurrent>>()
+//                    {
+//                        override fun onNext(t: Response<WeatherCurrent>) {
+//                            if (t.raw().cacheResponse() != null) {
+//                                setWeatherCurrentAdditionalDetailsData(t.body())
+//                            }else {
+//                                if(t.raw().networkResponse() != null)
+//                                    setWeatherCurrentAdditionalDetailsData(t.body())
+//                            }
+//                        }
+//
+//                        override fun onComplete() {
+//                        }
+//
+//                        override fun onError(e: Throwable) {
+//                            Toast.makeText(requireContext(),"Erreur = " + e.message, Toast.LENGTH_SHORT).show()
+//                        }
+//
+//                    })
         return view
     }
 

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.a727222.weatherapp.R
 import com.example.a727222.weatherapp.adapter.WeatherForecastAdapter
 import com.example.a727222.weatherapp.component.DaggerComponentWeatherForecastList
@@ -72,7 +73,7 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
                 .subscribeOn(Schedulers.io())
                 .subscribe( { weatherForecast ->
                     setForecastItem(weatherForecast)
-                }, { throwable -> println("Erreur Forecast : " + throwable)
+                }, { throwable -> Toast.makeText(requireContext(),"Erreur = " + throwable.message, Toast.LENGTH_SHORT).show()
 
                 })
         return view
