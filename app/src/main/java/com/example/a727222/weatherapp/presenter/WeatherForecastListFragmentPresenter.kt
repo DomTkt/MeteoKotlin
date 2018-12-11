@@ -5,10 +5,9 @@ import android.content.res.Configuration
 import com.example.a727222.weatherapp.R
 import com.example.a727222.weatherapp.component.DaggerComponentWeatherForecastList
 import com.example.a727222.weatherapp.interfaces.IA
-import com.example.a727222.weatherapp.interfaces.Networking
+import com.example.a727222.weatherapp.interfaces.NetworkingRx
 import com.example.a727222.weatherapp.models.WeatherForecast
 import com.example.a727222.weatherapp.module.ModuleWeatherForecastList
-import com.example.a727222.weatherapp.network.ApiServiceRx
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
@@ -17,7 +16,7 @@ class WeatherForecastListFragmentPresenter(private var context: Context) : IA {
     override val weatherForecastListData: PublishSubject<WeatherForecast?>
 
     @Inject
-    lateinit var networking : Networking
+    lateinit var networkingRx : NetworkingRx
     private var weatherForecastTrunc : WeatherForecast
     private val nbRowLandscape : Int
     private val nbRowPortrait : Int
@@ -32,7 +31,7 @@ class WeatherForecastListFragmentPresenter(private var context: Context) : IA {
     }
 
     override fun updateWeatherForecastListSearch(searchCity: String?){
-        ApiServiceRx(context).getObservableWeatherForecastSearch(searchCity)
+        networkingRx.getObservableWeatherForecastSearch(searchCity)
                 .subscribe( { weatherForecast : WeatherForecast ->
                     truncListWeather(weatherForecast,nbRowLandscape,nbRowPortrait)
                     weatherForecastListData.onNext(weatherForecastTrunc)

@@ -2,10 +2,9 @@ package com.example.a727222.weatherapp.presenter
 
 import android.content.Context
 import com.example.a727222.weatherapp.component.DaggerComponentBase
-import com.example.a727222.weatherapp.interfaces.Networking
+import com.example.a727222.weatherapp.interfaces.NetworkingRx
 import com.example.a727222.weatherapp.models.WeatherCurrent
 import com.example.a727222.weatherapp.module.ModuleBase
-import com.example.a727222.weatherapp.network.ApiServiceRx
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
@@ -15,7 +14,8 @@ class WeatherCurrentAdditionalDetailsFragmentPresenter
 (private var context: Context) {
 
     @Inject
-    lateinit var networking : Networking
+    lateinit var networkingRx : NetworkingRx
+    //stocker le resultat d'un appel réseau et de le publier a mes vues
     var weatherCurrentAdditionalDetailsData : PublishSubject<WeatherCurrent>
 
     init {
@@ -25,7 +25,7 @@ class WeatherCurrentAdditionalDetailsFragmentPresenter
     }
     fun updateWeatherCurrentAdditionalDetailsDataSearch(searchCity : String?){
 
-        ApiServiceRx(context).getObservableWeatherCurrentSearch(searchCity)
+        networkingRx.getObservableWeatherCurrentSearch(searchCity)
                 ?.subscribe( { weatherCurrent : WeatherCurrent ->
         weatherCurrentAdditionalDetailsData.onNext(weatherCurrent)
         }, { throwable ->

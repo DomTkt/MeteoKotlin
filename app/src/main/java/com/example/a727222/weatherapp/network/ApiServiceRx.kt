@@ -2,6 +2,7 @@ package com.example.a727222.weatherapp.network
 
 import android.content.Context
 import com.example.a727222.weatherapp.interfaces.IWeatherItemAPIServicesRx
+import com.example.a727222.weatherapp.interfaces.NetworkingRx
 import com.example.a727222.weatherapp.models.WeatherCurrent
 import com.example.a727222.weatherapp.models.WeatherForecast
 import io.reactivex.Observable
@@ -11,6 +12,7 @@ import okhttp3.Cache
 import okhttp3.CacheControl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -18,7 +20,7 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 
-class ApiServiceRx(context : Context){
+class ApiServiceRx(context : Context) : NetworkingRx{
 
     private fun apiService() = Retrofit.Builder()
             .baseUrl("http://api.openweathermap.org")
@@ -27,45 +29,29 @@ class ApiServiceRx(context : Context){
             .addConverterFactory(MoshiConverterFactory.create())
             .build().create(IWeatherItemAPIServicesRx::class.java)
 
-    fun getObservableWeatherCurrentSearch(city : String?) : Observable<WeatherCurrent>{
+    override fun getObservableWeatherCurrentSearch(city : String?) : Observable<WeatherCurrent>{
+        return getObservableGenericSearchFromResponse(apiService().weatherCurrentSearch(city))
+    }
 
+    override fun getObservableWeatherForecastSearch(city : String?) : Observable<WeatherForecast>{
+        return getObservableGenericSearchFromResponse(apiService().weatherForecastSearch(city))
+    }
 
-        return Observable.create({emitter ->
+    private fun <T> getObservableGenericSearchFromResponse(observable: Observable<Response<T>>) : Observable<T>{
 
-        apiService().weatherCurrentSearch(city)
-                .observeOn(AndroidSchedulers.mainThread())
+        //return Observable.create({emitter ->
+        return observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .map { resultWeatherCurrentSearch ->
-                    if (resultWeatherCurrentSearch.raw().cacheResponse() != null){
-                         resultWeatherCurrentSearch.body()
+                .map { result ->
+                    if (result.raw().cacheResponse() != null){
+                        result.body()
 
                     }else{
-                        resultWeatherCurrentSearch.body()
+                        result.body()
                     }
                 }
-                .subscribe({ t: WeatherCurrent? ->
-                    if (t != null) {
-                        emitter.onNext(t)
-                    }
-
-        }, {
-            throwable -> println(throwable.message)
-        }
-
-        )
-        })
-    }
-
-    fun getObservableWeatherForecastSearch(city : String?) : Observable<WeatherForecast>{
-        return getObservableGeneric(apiService().weatherForecastSearch(city))
-
-    }
-
-    private fun <T> getObservableGeneric(observable : Observable<T>) : Observable<T>
-    {
-        return observable
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+        //A Verifier
+    //})
     }
 
     val networkCacheInterceptor = Interceptor { chain ->

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +23,7 @@ import com.example.a727222.weatherapp.view.activity.WeatherActivity
 import com.example.a727222.weatherapp.view.activity.WeatherForecastDetailsActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_weather_forecast_list.*
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -52,7 +52,6 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
 
     private var forecastItemList : ArrayList<ForecastItem> = ArrayList<ForecastItem>()
     private var weatherForecast : WeatherForecast? = null
-    private lateinit var recyclerViewWeatherForecast : RecyclerView
     var citySearch : String? = null
 
     @Inject
@@ -62,7 +61,6 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
                               savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_weather_forecast_list, container, false)
-        recyclerViewWeatherForecast = view.findViewById(R.id.weather_forecast_list_fragment_recyclerView)
         val b : Bundle? = arguments
         citySearch = b?.getString(WeatherActivity.WEATHER_ACTIVITY_ARGUMENTS)
         DaggerComponentWeatherForecastList.builder().moduleWeatherForecastList(ModuleWeatherForecastList(requireContext())).build().plus(this)
@@ -79,19 +77,19 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
         return view
     }
 
-    fun setForecastItem(weatherForecast: WeatherForecast?) {
+    private fun setForecastItem(weatherForecast: WeatherForecast?) {
         this.weatherForecast = weatherForecast
-        recyclerViewWeatherForecast.layoutManager = LinearLayoutManager(this@WeatherForecastListFragment.context)
-        recyclerViewWeatherForecast.adapter = WeatherForecastAdapter(forecastItemList,this@WeatherForecastListFragment)
+        weather_forecast_list_fragment_recyclerView.layoutManager = LinearLayoutManager(this@WeatherForecastListFragment.context)
+        weather_forecast_list_fragment_recyclerView.adapter = WeatherForecastAdapter(forecastItemList,this@WeatherForecastListFragment)
 
-        val SimpleDateFormatDayOfWeek = SimpleDateFormat("EEEE", Locale.ENGLISH)
+        val simpleDateFormatDayOfWeek = SimpleDateFormat("EEEE", Locale.ENGLISH)
 
         weatherForecast?.list?.let {
             for((index,forecastItems) in it.withIndex()){
                 val calendar : Calendar = Calendar.getInstance()
                 calendar.add(Calendar.DAY_OF_YEAR, index)
                 val forecastDate : Date = calendar.time
-                val forecastItem = ForecastItem(day = SimpleDateFormatDayOfWeek.format(forecastDate), temperature_min = Utils.convertKelvinToCelsius(forecastItems.temp.min), temperature_max = Utils.convertKelvinToCelsius(forecastItems.temp.max),icon = forecastItems.weather.get(0).icon)
+                val forecastItem = ForecastItem(day = simpleDateFormatDayOfWeek.format(forecastDate), temperature_min = Utils.convertKelvinToCelsius(forecastItems.temp.min), temperature_max = Utils.convertKelvinToCelsius(forecastItems.temp.max),icon = forecastItems.weather.get(0).icon)
                 forecastItemList.add(forecastItem)
 
             }

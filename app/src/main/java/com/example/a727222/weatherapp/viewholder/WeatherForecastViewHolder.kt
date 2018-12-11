@@ -11,15 +11,14 @@ import com.example.a727222.weatherapp.utils.Utils
 
 class WeatherForecastViewHolder(itemView: View, onItemClickListener: OnItemWeatherForecastClickListener?) : WeatherForecastBaseViewHolder<ForecastItem>(itemView), View.OnClickListener{
 
-    val forecastDay = itemView.findViewById<TextView>(R.id.recycler_view_forecast_day_textView)
-    val forecastIcon = itemView.findViewById<ImageView>(R.id.recycler_view_forecast_icon_imageView)
-    val forecastTemperatureMax = itemView.findViewById<TextView>(R.id.recycler_view_forecast_temperature_max)
-    val forecastTemperatureMin = itemView.findViewById<TextView>(R.id.recycler_view_forecast_temperature_min)
-    val onItemClickListener: OnItemWeatherForecastClickListener?
-    val context = itemView.context
+    private val forecastDay = itemView.findViewById<TextView>(R.id.recycler_view_forecast_day_textView)
+    private val forecastIcon = itemView.findViewById<ImageView>(R.id.recycler_view_forecast_icon_imageView)
+    private val forecastTemperatureMax = itemView.findViewById<TextView>(R.id.recycler_view_forecast_temperature_max)
+    private val forecastTemperatureMin = itemView.findViewById<TextView>(R.id.recycler_view_forecast_temperature_min)
+    private val onItemClickListener: OnItemWeatherForecastClickListener? = onItemClickListener
+    private val context = itemView.context
 
     init {
-        this.onItemClickListener = onItemClickListener
         itemView.setOnClickListener(this)
     }
 

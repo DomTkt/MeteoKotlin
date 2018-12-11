@@ -2,17 +2,16 @@ package com.example.a727222.weatherapp.presenter
 
 import android.content.Context
 import com.example.a727222.weatherapp.component.DaggerComponentBase
-import com.example.a727222.weatherapp.interfaces.Networking
+import com.example.a727222.weatherapp.interfaces.NetworkingRx
 import com.example.a727222.weatherapp.models.WeatherCurrent
 import com.example.a727222.weatherapp.module.ModuleBase
-import com.example.a727222.weatherapp.network.ApiServiceRx
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 class WeatherCurrentPrincipalDetailsFragmentPresenter(private var context: Context) {
 
     @Inject
-    lateinit var networking : Networking
+    lateinit var networkingRx : NetworkingRx
     var weatherCurrentPrincipalDetailsData : PublishSubject<WeatherCurrent>
 
     init {
@@ -22,7 +21,7 @@ class WeatherCurrentPrincipalDetailsFragmentPresenter(private var context: Conte
 
     fun updateWeatherCurrentPrincipalDetailsDataSearch(searchCity: String?){
 
-        ApiServiceRx(context).getObservableWeatherCurrentSearch(searchCity)
+        networkingRx.getObservableWeatherCurrentSearch(searchCity)
                 ?.subscribe( { weatherCurrent : WeatherCurrent ->
                     weatherCurrentPrincipalDetailsData.onNext(weatherCurrent)
                 }, { throwable ->

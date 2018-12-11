@@ -7,7 +7,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class ModuleWeatherCurrentPrincipalDetails(context: Context){
+class ModuleWeatherCurrentPrincipalDetails(context: Context) : ModuleBase(context){
     private var context: Context
 
     init{
