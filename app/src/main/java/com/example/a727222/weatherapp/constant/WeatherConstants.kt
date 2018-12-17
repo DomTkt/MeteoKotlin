@@ -1,5 +1,8 @@
 package com.example.a727222.weatherapp.constant
 
+/**
+ * WeatherConstants for the treatment of icons
+ */
 enum class WeatherConstants(val value : String?){
     CLEAR_SKY_DAY("01d"),
     CLEAR_SKY_NIGHT("01n"),

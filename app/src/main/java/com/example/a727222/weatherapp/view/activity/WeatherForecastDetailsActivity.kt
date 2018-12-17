@@ -8,6 +8,9 @@ import com.example.a727222.weatherapp.presenter.WeatherForecastDetailsActivityPr
 import com.example.a727222.weatherapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_weather_forecast_details.*
 
+/**
+ * This class contains datas for a weather forecast day
+ */
 class WeatherForecastDetailsActivity : AppCompatActivity(), WeatherForecastDetailsActivityPresenter.View {
 
     private lateinit var presenter: WeatherForecastDetailsActivityPresenter

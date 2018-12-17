@@ -8,14 +8,18 @@ import com.example.a727222.weatherapp.module.ModuleBase
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
-
-
+/**
+ * This class obtains the data to display for the additionnal data
+ */
 class WeatherCurrentAdditionalDetailsFragmentPresenter
 (private var context: Context) {
 
+    /**
+     * networkingRx contains isntance of NetworkingRx, which according to the configuration of the variant variant change
+     */
     @Inject
     lateinit var networkingRx : NetworkingRx
-    //stocker le resultat d'un appel réseau et de le publier a mes vues
+    //Stock the result of the network call and publish in the view for the additional data
     var weatherCurrentAdditionalDetailsData : PublishSubject<WeatherCurrent>
 
     init {

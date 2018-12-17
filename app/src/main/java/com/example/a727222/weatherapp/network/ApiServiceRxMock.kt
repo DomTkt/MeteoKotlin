@@ -14,9 +14,14 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-
+/**
+ * This class allows to obtains a mock of data for a search weather
+ */
 class ApiServiceRxMock(context : Context) : NetworkingRx{
 
+    /**
+     * context contains the actual context
+     */
     var context : Context
 
     init{
@@ -44,15 +49,29 @@ class ApiServiceRxMock(context : Context) : NetworkingRx{
     }
 
 
+    /**
+     * getObservableWeatherCurrentSearch allows to get the weather current of the city search
+     * @param city The city search by the user
+     * @return Observable<WeatherCurrent>
+     */
     override fun getObservableWeatherCurrentSearch(city : String?) : Observable<WeatherCurrent>{
 
         return getObservableGenericSearchFromResponse(apiService(context)?.weatherCurrentSearch(city))
     }
 
+    /**
+     * getObservableWeatherForecastSearch allows to get the weather forecast of the city search
+     * @param city The city search by the user
+     * @return Observable<WeatherForecast>
+     */
     override fun getObservableWeatherForecastSearch(city : String?) : Observable<WeatherForecast>{
         return getObservableGenericSearchFromResponse(apiService(context)?.weatherForecastSearch(city))
     }
 
+    /**
+     * get Observable type from a specific response
+     * @param T the type of the model that we want the response
+     */
     private fun <T> getObservableGenericSearchFromResponse(observable: Observable<Response<T>>?) : Observable<T>{
 
         return Observable.create({emitter ->

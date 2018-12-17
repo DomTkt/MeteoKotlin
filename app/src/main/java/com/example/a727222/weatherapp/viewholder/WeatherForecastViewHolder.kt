@@ -8,7 +8,9 @@ import com.example.a727222.weatherapp.interfaces.OnItemWeatherForecastClickListe
 import com.example.a727222.weatherapp.models.ForecastItem
 import com.example.a727222.weatherapp.utils.Utils
 
-
+/**
+ * This class is the ViewHolder of weather forecast, allows to fill data
+ */
 class WeatherForecastViewHolder(itemView: View, onItemClickListener: OnItemWeatherForecastClickListener?) : WeatherForecastBaseViewHolder<ForecastItem>(itemView), View.OnClickListener{
 
     private val forecastDay = itemView.findViewById<TextView>(R.id.recycler_view_forecast_day_textView)
@@ -23,6 +25,10 @@ class WeatherForecastViewHolder(itemView: View, onItemClickListener: OnItemWeath
     }
 
 
+    /**
+     * This method allows to fill the model
+     * @param weatherForecastModel is the model give in parameter class in WeatherForecastBaseViewHolder which is implemented by the current class
+     */
     override fun fill(weatherForecastModel: ForecastItem) {
         forecastDay.text = weatherForecastModel.day
         forecastIcon.setImageResource(Utils.getTypeIconId(weatherForecastModel.icon.toString()))
@@ -31,6 +37,9 @@ class WeatherForecastViewHolder(itemView: View, onItemClickListener: OnItemWeath
     }
 
 
+    /**
+     * @param v View
+     */
     override fun onClick(v: View?) {
         onItemClickListener?.onItemWeatherClick(adapterPosition)
     }

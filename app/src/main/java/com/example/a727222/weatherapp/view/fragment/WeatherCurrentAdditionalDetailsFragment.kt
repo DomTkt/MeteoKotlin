@@ -19,18 +19,18 @@ import kotlinx.android.synthetic.main.fragment_weather_current_additional_detail
 import javax.inject.Inject
 
 /**
- *
+ * This class is a fragment which contains weather current additional details data
  */
 class WeatherCurrentAdditionalDetailsFragment : Fragment() {
 
     /**
-     *
+     * presenter contains instance of WeatherCurrentAdditionalDetailsFragmentPresenter
      */
     @Inject
     lateinit var presenter : WeatherCurrentAdditionalDetailsFragmentPresenter
 
     /**
-     *
+     * citySearch contains the String of the city search
      */
     private var citySearch : String? = null
 
@@ -61,6 +61,9 @@ class WeatherCurrentAdditionalDetailsFragment : Fragment() {
         }
     }
 
+    /**
+     * set data weatherCurrent in the view
+     */
     private fun setWeatherCurrentAdditionalDetailsData(weatherCurrent: WeatherCurrent?) {
         weather_current_additional_details_sunrise_textView.setText(getString(R.string.weather_activity_label_sunrise) + Utils.convertTimeStampInSuntimes(weatherCurrent?.sys?.sunrise?.toLong()))
         weather_current_additional_details_sunset_textView.setText(getString(R.string.weather_activity_label_sunset) + Utils.convertTimeStampInSuntimes(weatherCurrent?.sys?.sunset?.toLong()))

@@ -5,6 +5,11 @@ import com.example.a727222.weatherapp.view.fragment.WeatherCurrentPrincipalDetai
 import dagger.Component
 import javax.inject.Singleton
 
+
+/**
+ * This class allows to specify the classes where we will make the injection of dependency
+ */
+
 @Singleton
 @Component(modules = arrayOf(ModuleWeatherCurrentPrincipalDetails::class))
 interface ComponentWeatherCurrentPrincipalDetails {

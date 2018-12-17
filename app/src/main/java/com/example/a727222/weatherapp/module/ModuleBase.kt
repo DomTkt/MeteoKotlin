@@ -11,6 +11,11 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
+/**
+ * This class does injection processing by creating unique instances of objects call
+ *
+ */
+
 @Module
 open class ModuleBase(context: Context) {
     private var context: Context
@@ -30,6 +35,11 @@ open class ModuleBase(context: Context) {
         }
     }
 
+    /**
+     * Create instance of ApiServiceRxMock if the build variant is in mock
+     * Create instance of ApiServiceRx if the build variant is in prod
+     * Else return an instance of ApiServiceMock
+     */
     @Provides
     @Singleton
     fun provideNetworkerRx(): NetworkingRx {

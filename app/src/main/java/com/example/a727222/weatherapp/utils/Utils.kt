@@ -9,12 +9,18 @@ import java.util.*
 
 object Utils {
 
-    //Take Kelvin in Double and convert on Celsius in Int
+    /**
+     * Take Kelvin in Double and convert on Celsius in Int
+     */
     fun convertKelvinToCelsius(tempKelvin: Double?): Int? {
         var tempCelsius : Double? = tempKelvin?.minus(273.15)
         return tempCelsius?.toInt()
     }
 
+    /**
+     * @param milliseconds
+     * convert TimeStamp in Suntimes
+     */
     fun convertTimeStampInSuntimes(milliseconds : Long?) : String?{
         var simpleDateFormat : SimpleDateFormat = SimpleDateFormat("kk:mm")
         var date : Date? = milliseconds?.times(1000)?.let { Date(it) }
@@ -22,6 +28,10 @@ object Utils {
         return stringSunTime
     }
 
+    /**
+     * @param type
+     * get icon according to the type
+     */
     fun getTypeIconId (type : String?) : Int{
 
         return when(type){
@@ -58,6 +68,12 @@ object Utils {
     }
 
 
+    /**
+     * get the city from the location of the user
+     * @param context
+     * @param latitude latitude of the user
+     * @param longitude longitude of the user
+     */
     fun getCityNameFromLocation(context : Context, latitude : Double , longitude : Double) : String{
 
         val geocoder = Geocoder(context, Locale.getDefault())

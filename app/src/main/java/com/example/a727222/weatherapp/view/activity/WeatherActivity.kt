@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.location.Location
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -28,14 +27,27 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import io.fabric.sdk.android.Fabric
 
-
+/**
+ * WeatherActivity is a launch screen, display component as fragment search bar...
+ */
 class WeatherActivity : AppCompatActivity(){
 
+    /**
+     * scrollView allows to scroll
+     */
     private lateinit var scrollView : ScrollView
-    private lateinit var constraintlayout : ConstraintLayout
+    /**
+     * cityCurrent city current of the user, get by her position
+     */
     private var cityCurrent : String? =  null
 
+    /**
+     * GPS
+     */
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    /**
+     * args in Bundle
+     */
     lateinit var args : Bundle
 
 
@@ -52,28 +64,39 @@ class WeatherActivity : AppCompatActivity(){
         setContentView(R.layout.activity_weather)
         Fabric.with(this, Crashlytics())
         scrollView = findViewById(R.id.weather_activity_root_layout)
-        constraintlayout = findViewById(R.id.constraintLayout);
         hideActionBar()
         displaySearchBar()
         checkDataExistForChangeOrientation()
     }
 
+    /**
+     * Method to hide action bar
+     */
     fun hideActionBar(){
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         actionBar?.hide()
     }
 
+    /**
+     * Display the fragment which contains the data weather current principal details
+     */
     fun displayFragmentWeatherCurrentPrincipalDetails(args : Bundle){
         var fragmentWeatherCurrentPrincipalDetails : WeatherCurrentPrincipalDetailsFragment = WeatherCurrentPrincipalDetailsFragment.newInstance()
         fragmentWeatherCurrentPrincipalDetails.arguments = args
         supportFragmentManager.beginTransaction().replace(R.id.weather_current_principal_details_fragment, fragmentWeatherCurrentPrincipalDetails, WeatherCurrentPrincipalDetailsFragment.javaClass.name).commit()
     }
-    fun displayFragmentWeatherCurrentPrincipalDetailsWeatherForecastListFragment(args : Bundle){
+    /**
+     * Display the fragment which contains the data forecast
+     */
+    fun displayFragmentWeatherForecastListFragment(args : Bundle){
         var fragmentWeatherForecastListFragment : WeatherForecastListFragment = WeatherForecastListFragment.newInstance()
         fragmentWeatherForecastListFragment.arguments = args
         supportFragmentManager.beginTransaction().replace(R.id.weather_forecast_list_fragment_recyclerView, fragmentWeatherForecastListFragment, WeatherForecastListFragment.javaClass.name).commit();
 
     }
+    /**
+     * Display the fragment which contains the data weather current additional details
+     */
     fun displayFragmentWeatherCurrentAdditionalDetailsFragment(args : Bundle){
         var fragmentWeatherCurrentAdditionalDetailsFragment : WeatherCurrentAdditionalDetailsFragment = WeatherCurrentAdditionalDetailsFragment.newInstance()
         fragmentWeatherCurrentAdditionalDetailsFragment.arguments = args
@@ -86,6 +109,9 @@ class WeatherActivity : AppCompatActivity(){
             requestPermissions()
     }
 
+    /**
+     * event change orientation
+     */
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
         if (newConfig != null) {
@@ -104,6 +130,9 @@ class WeatherActivity : AppCompatActivity(){
         }
     }
 
+    /**
+     * Display the search bar with auto complete Google for the city/country
+     */
     fun displaySearchBar(){
         val autocompleteFragment = PlaceAutocompleteFragment()
         val fragmentManager = getFragmentManager()
@@ -127,6 +156,9 @@ class WeatherActivity : AppCompatActivity(){
         })
     }
 
+    /**
+     * check if data exist when we change orientation
+     */
     fun checkDataExistForChangeOrientation(){
         var bundle : Bundle? = intent.extras
         cityCurrent = bundle?.getString(WEATHER_ACTIVITY_ARGUMENTS_ORIENTATION)
@@ -134,17 +166,23 @@ class WeatherActivity : AppCompatActivity(){
             val args = Bundle()
             args.putString(WEATHER_ACTIVITY_ARGUMENTS,cityCurrent)
             displayFragmentWeatherCurrentPrincipalDetails(args)
-            displayFragmentWeatherCurrentPrincipalDetailsWeatherForecastListFragment(args)
+            displayFragmentWeatherForecastListFragment(args)
             displayFragmentWeatherCurrentAdditionalDetailsFragment(args)
         }
     }
 
+    /**
+     * permission for the GPS
+     */
     private fun requestPermissions() {
         ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 REQUEST_FINE_LOCATION)
     }
 
+    /**
+     * permission event result
+     */
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when(requestCode){
@@ -180,11 +218,14 @@ class WeatherActivity : AppCompatActivity(){
                 }
     }
 
+    /**
+     * Display all fragment
+     */
     private fun showWeather(cityName : String?){
         val args = Bundle()
         args.putString(WEATHER_ACTIVITY_ARGUMENTS,cityName)
         displayFragmentWeatherCurrentPrincipalDetails(args)
-        displayFragmentWeatherCurrentPrincipalDetailsWeatherForecastListFragment(args)
+        displayFragmentWeatherForecastListFragment(args)
         displayFragmentWeatherCurrentAdditionalDetailsFragment(args)
     }
 

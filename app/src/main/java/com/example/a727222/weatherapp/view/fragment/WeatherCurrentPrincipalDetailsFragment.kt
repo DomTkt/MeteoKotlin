@@ -16,11 +16,20 @@ import com.example.a727222.weatherapp.view.activity.WeatherActivity
 import kotlinx.android.synthetic.main.fragment_weather_current_principal_details.*
 import javax.inject.Inject
 
+/**
+ * This class is a fragment which contains weather current principal details data
+ */
 class WeatherCurrentPrincipalDetailsFragment : Fragment(){
 
+    /**
+     * presenter contains instance of WeatherCurrentPrincipalDetailsFragmentPresenter
+     */
     @Inject
     lateinit var presenter  : WeatherCurrentPrincipalDetailsFragmentPresenter
-    
+
+    /**
+     * citySearch contains the String of the city search
+     */
     private var citySearch : String? = null
 
 
@@ -49,6 +58,9 @@ class WeatherCurrentPrincipalDetailsFragment : Fragment(){
         }
     }
 
+    /**
+     * set the data weatherCurrent to the view
+     */
      private fun setWeatherCurrentPrincipalDetailsData(weatherCurrent: WeatherCurrent?) {
          weather_current_principal_details_icon_imageView.setImageResource(Utils.getTypeIconId(weatherCurrent?.weather?.get(0)?.icon))
          weather_current_principal_details_city_textView.setText(weatherCurrent?.name)

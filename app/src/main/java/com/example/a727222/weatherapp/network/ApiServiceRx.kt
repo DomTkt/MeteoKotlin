@@ -19,7 +19,10 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-
+/**
+ * @param context
+ * This class allows to get the result of network calls
+ */
 class ApiServiceRx(context : Context) : NetworkingRx{
 
     private fun apiService() = Retrofit.Builder()
@@ -29,17 +32,29 @@ class ApiServiceRx(context : Context) : NetworkingRx{
             .addConverterFactory(MoshiConverterFactory.create())
             .build().create(IWeatherItemAPIServicesRx::class.java)
 
+    /**
+     * getObservableWeatherCurrentSearch allows to get the weather current of the city search
+     * @param city The city search by the user
+     * @return Observable<WeatherCurrent>
+     */
     override fun getObservableWeatherCurrentSearch(city : String?) : Observable<WeatherCurrent>{
         return getObservableGenericSearchFromResponse(apiService().weatherCurrentSearch(city))
     }
 
+    /**
+     * getObservableWeatherForecastSearch allows to get the weather forecast of the city search
+     * @param city The city search by the user
+     * @return Observable<WeatherForecast>
+     */
     override fun getObservableWeatherForecastSearch(city : String?) : Observable<WeatherForecast>{
         return getObservableGenericSearchFromResponse(apiService().weatherForecastSearch(city))
     }
 
+    /**
+     * @param T the type of the model that we want the response
+     */
     private fun <T> getObservableGenericSearchFromResponse(observable: Observable<Response<T>>) : Observable<T>{
 
-        //return Observable.create({emitter ->
         return observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .map { result ->
@@ -50,10 +65,11 @@ class ApiServiceRx(context : Context) : NetworkingRx{
                         result.body()
                     }
                 }
-        //A Verifier
-    //})
     }
 
+    /**
+     * Intercept the network cache
+     */
     val networkCacheInterceptor = Interceptor { chain ->
         val response = chain.proceed(chain.request())
 
@@ -66,8 +82,17 @@ class ApiServiceRx(context : Context) : NetworkingRx{
                 .build()
     }
 
+    /**
+     * the size of the maximum cache
+     */
     val cacheSize = 10 * 1024 * 1024
+    /**
+     * directory of the cache
+     */
     val httpCacheDirectory = File(context.cacheDir, "http-cache")
+    /**
+     * cache
+     */
     val cache = Cache(httpCacheDirectory, cacheSize.toLong())
 
     val httpClient = OkHttpClient.Builder()

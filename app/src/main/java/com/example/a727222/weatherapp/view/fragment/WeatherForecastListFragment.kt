@@ -28,7 +28,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-
+/**
+ * This class is a fragment which contains weather forecast data
+ */
 class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListener {
 
     companion object {
@@ -40,6 +42,9 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
         val WEATHER_FORECAST_DAY_EXTRA : String = "WEATHER_FORECAST_DAY_EXTRA"
     }
 
+    /**
+     * event click listener for the position of the weather forecast list clicked
+     */
     override fun onItemWeatherClick(position: Int) {
         val intent = Intent(this.context, WeatherForecastDetailsActivity::class.java)
         val weatherForecastDay : WeatherForecastDay? = weatherForecast?.list?.get(position)
@@ -50,10 +55,22 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
 
     }
 
+    /**
+     * forecastItemList ArrayList of ForecastItem
+     */
     private var forecastItemList : ArrayList<ForecastItem> = ArrayList<ForecastItem>()
+    /**
+     * weatherForecast allows to temporarily stored the weatherForecast to change its content
+     */
     private var weatherForecast : WeatherForecast? = null
+    /**
+     * citySearch contains the String of the city search
+     */
     var citySearch : String? = null
 
+    /**
+     * presenter contains the instance of IA
+     */
     @Inject
     lateinit var presenter : IA
 
@@ -77,6 +94,9 @@ class WeatherForecastListFragment : Fragment(), OnItemWeatherForecastClickListen
         return view
     }
 
+    /**
+     * set the data to the view
+     */
     private fun setForecastItem(weatherForecast: WeatherForecast?) {
         this.weatherForecast = weatherForecast
         weather_forecast_list_fragment_recyclerView.layoutManager = LinearLayoutManager(this@WeatherForecastListFragment.context)

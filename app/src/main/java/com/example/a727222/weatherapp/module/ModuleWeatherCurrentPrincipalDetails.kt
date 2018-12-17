@@ -6,6 +6,11 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
+/**
+ * This class does injection processing by creating unique instances of objects call
+ *
+ */
+
 @Module
 class ModuleWeatherCurrentPrincipalDetails(context: Context) : ModuleBase(context){
     private var context: Context
